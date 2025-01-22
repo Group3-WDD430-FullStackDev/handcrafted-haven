@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  cat_id             Int                  @id @default(autoincrement())
+  cat_name           String               @db.VarChar(50)
+  product_categories product_categories[]
+}
+
+model product_categories {
+  prod_id    Int
+  cat_id     Int
+  categories categories @relation(fields: [cat_id], references: [cat_id], onDelete: NoAction, onUpdate: NoAction)
+  products   products   @relation(fields: [prod_id], references: [prod_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([prod_id, cat_id])
+}
+
+model products {
+  prod_id            Int                  @id @default(autoincrement())
+  prod_name          String               @db.VarChar(255)
+  prod_description   String?
+  prod_price         Decimal              @db.Decimal(10, 2)
+  prod_image         String?              @db.VarChar(255)
+  user_id            Int
+  product_categories product_categories[]
+  users              users                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  reviews            reviews[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reviews {
+  review_id     Int       @id @default(autoincrement())
+  user_id       Int
+  prod_id       Int
+  review_rating Int       @db.SmallInt
+  review_text   String?
+  review_date   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
+  products      products  @relation(fields: [prod_id], references: [prod_id], onDelete: NoAction, onUpdate: NoAction)
+  users         users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  user_id        Int        @id @default(autoincrement())
+  user_name      String     @db.VarChar(255)
+  user_email     String     @unique @db.VarChar(255)
+  user_password  String     @db.VarChar(255)
+  user_bio       String?
+  user_image     String?    @db.VarChar(255)
+  user_is_seller Boolean?   @default(false)
+  products       products[]
+  reviews        reviews[]
+}
+
+enum user_type_enum {
+  seller
+  customer
+}
