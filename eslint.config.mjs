@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     rules: {
       quotes: ["error", "double"],
+      "@next/next/no-img-element": "off"
     },
   },
 ];
