@@ -9,7 +9,7 @@ export default function Nav() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col [&>a]:p-2 hover:[&>a]:bg-gray-200 bg-gray-300">
+    <div className="flex flex-row [&>a]:p-2 hover:[&>a]:bg-gray-200 bg-gray-300">
       <Link
         className={clsx({
           "bg-customColor-300": pathname === "/catalog",

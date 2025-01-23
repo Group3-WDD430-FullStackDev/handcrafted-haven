@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Common/Header";
 import Nav from "@/components/Common/Nav";
+import Footer from "@/components/Common/Footer";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Header />
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -1,5 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { users, products, categories, productCategories, reviews } from "./placeholder-data";
+import {
+  users,
+  products,
+  categories,
+  productCategories,
+  reviews,
+} from "./placeholder-data";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +22,9 @@ async function main() {
   );
 
   // Create a map of user_name -> ID
-  const userMap = new Map(createdUsers.map((user) => [user.user_name, user.user_id]));
+  const userMap = new Map(
+    createdUsers.map((user) => [user.user_name, user.user_id])
+  );
 
   // Insert Categories and Capture Generated IDs
   const createdCategories = await Promise.all(
@@ -28,14 +36,18 @@ async function main() {
   );
 
   // Create a map of category name -> ID
-  const categoryMap = new Map(createdCategories.map((category) => [category.cat_name, category.cat_id]));
+  const categoryMap = new Map(
+    createdCategories.map((category) => [category.cat_name, category.cat_id])
+  );
 
   // Insert Products and Capture Generated IDs
   const createdProducts = await Promise.all(
     products.map(async (product) => {
       const userId = userMap.get(product.user_name);
       if (!userId) {
-        console.warn(`User "${product.user_name}" not found. Skipping product "${product.prod_name}".`);
+        console.warn(
+          `User "${product.user_name}" not found. Skipping product "${product.prod_name}".`
+        );
         return null;
       }
 
@@ -52,7 +64,11 @@ async function main() {
   );
 
   // Create a map of product name -> ID (filtering out nulls)
-  const productMap = new Map(createdProducts.filter(Boolean).map((product) => [product!.prod_name, product!.prod_id]));
+  const productMap = new Map(
+    createdProducts
+      .filter(Boolean)
+      .map((product) => [product!.prod_name, product!.prod_id])
+  );
 
   // Insert Product-Category Relationships
   await Promise.all(
@@ -61,7 +77,9 @@ async function main() {
       const catId = categoryMap.get(pc.cat_name);
 
       if (!prodId || !catId) {
-        console.warn(`Skipping product-category relation: ${pc.prod_name} -> ${pc.cat_name}`);
+        console.warn(
+          `Skipping product-category relation: ${pc.prod_name} -> ${pc.cat_name}`
+        );
         return;
       }
 
@@ -81,7 +99,9 @@ async function main() {
       const prodId = productMap.get(review.prod_name);
 
       if (!userId || !prodId) {
-        console.warn(`Skipping review: ${review.user_name} on ${review.prod_name}`);
+        console.warn(
+          `Skipping review: ${review.user_name} on ${review.prod_name}`
+        );
         return;
       }
 
