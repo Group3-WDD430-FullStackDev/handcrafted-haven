@@ -1,21 +1,29 @@
 const users = [
   {
+    googleId: "fake-google-id-12345",
+    email: "email@example.com",
+    displayName: "John Doe",
+    image: "image.jpg",
     //   user_id: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa", // Assigned by DB with Prisma Model
-    user_email: "email@example.com",
-    user_password: "password123",
-    user_name: "John Doe",
+    // user_email: "email@example.com",
+    // user_password: "password123",
+    // user_name: "John Doe",
     user_bio: "Biography text",
     user_is_seller: false,
-    user_image: "image.jpg",
+    // user_image: "image.jpg",
   },
   {
+    googleId: "fake-google-id-23456",
+    email: "seller@example.com",
+    displayName: "Jane Doe",
+    image: "image.jpg",
     //   user_id: "11111111-1111-1111-1111-111111111111", // Assigned by DB with Prisma Model
-    user_email: "seller@example.com",
-    user_password: "password123",
-    user_name: "Jane Doe",
+    // user_email: "seller@example.com",
+    // user_password: "password123",
+    // user_name: "Jane Doe",
     user_bio: "Biography text",
     user_is_seller: true,
-    user_image: "image.jpg",
+    // user_image: "image.jpg",
   },
 ];
 

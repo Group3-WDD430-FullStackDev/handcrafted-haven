@@ -1,6 +1,6 @@
 export type IUserCard = {
-  user_name: string;
-  user_image: string;
+  displayName: string;
+  image: string;
 };
 
 export type IProductCard = {

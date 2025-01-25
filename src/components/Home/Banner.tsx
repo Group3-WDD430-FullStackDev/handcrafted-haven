@@ -1,8 +1,9 @@
 "use client";
 
-import { JSX, useState } from "react";
+import { JSX } from "react";
 import { montserrat } from "../fonts";
 import clsx from "clsx";
+import SearchBar from "../SearchBar";
 
 /**
  * Banner Component that displays a banner image with a title, description, and search bar.
@@ -14,19 +15,6 @@ export default function Banner({
 }: {
   className: string;
 }): JSX.Element {
-  function updateSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    setSearchTerm(e.target.value);
-  }
-
-  // State value to store the search term from the search bar
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
-  // Empty search value if there is no search term
-  let searchValue: string = "";
-
-  // If there is a search term, add it to the search value
-  if (searchTerm) searchValue = `?q=${searchTerm}`;
-
   return (
     <div
       className={clsx(
@@ -76,26 +64,7 @@ export default function Banner({
             Discover Amazing Products
           </h3>
 
-          {/* Search Bar */}
-          <label htmlFor="search" aria-label="Search" className="ml-5">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="Explore"
-              className="w-full h-full rounded-l-lg p-2"
-              onInput={updateSearch}
-            />
-          </label>
-
-          {/* Submit Button */}
-          <a
-            type="submit"
-            href={`/catalog${searchValue}`}
-            className="w-[60px] h-[40px] bg-[#92DCE5] rounded-r-lg mr-5 flex items-center justify-center hover:brightness-90"
-          >
-            GO
-          </a>
+          <SearchBar />
         </div>
       </div>
     </div>
