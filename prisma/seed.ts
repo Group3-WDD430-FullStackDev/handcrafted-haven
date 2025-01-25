@@ -23,7 +23,7 @@ async function main() {
 
   // Create a map of user_name -> ID
   const userMap = new Map(
-    createdUsers.map((user) => [user.user_name, user.user_id])
+    createdUsers.map((user) => [user.displayName, user.user_id])
   );
 
   // Insert Categories and Capture Generated IDs

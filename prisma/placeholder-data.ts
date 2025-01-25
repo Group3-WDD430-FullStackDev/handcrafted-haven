@@ -1,33 +1,30 @@
 const users = [
   {
-    //   user_id: 6
-    user_bio: "I love making handbags. I have been creating designs since I was 12.",
-    user_is_seller: true,
-    createdAt: "2025-01-24 18:34:06.555",
-    displayName: "Jane Doe",
-    email: "seller@example.com",
+    // user_id: 6
     googleId: "fake-google-id-23456",
+    email: "seller@example.com",
+    displayName: "Jane Doe",
     image: "/users/jane-doe.jpg",
+    user_bio: "I love making handbags. I have been creating designs since I was 12.",
+    user_is_seller: true, 
   },
   {
-    //   user_id: 7
+    // user_id: 7
+    googleId: "fake-google-id-12345",
+    email: "email@example.com",
+    displayName: "John Doe",
+    image: "/users/john-doe.jpg",
     user_bio: "Ceramics are my life. My shop is full of creative, hand painted designs. All my products are non-toxic and food safe.",
     user_is_seller: true,
-    createdAt: "2025-01-24 18:34:06.555",
-    displayName: "John Doe",
-    email: "email@example.com",
-    googleId: "fake-google-id-12345",
-    image: "/users/john-doe.jpg",
   },
   {
-    //   user_id: 1
+    // user_id: 1
+    googleId: "fake-google-id-11111",
+    email: "buyer@email.com",
+    displayName: "Betty Buyer",
+    image: "image.jpg",
     user_bio: "",
     user_is_seller: false,
-    createdAt: "2025-01-24 18:34:06.555",
-    displayName: "Betty Buyer",
-    email: "buyer@email.com",
-    googleId: "fake-google-id-11111",
-    image: "image.jpg",
   },
 ];
 
