@@ -1,5 +1,6 @@
 export type IUserCard = {
   displayName: string;
+  user_bio: string;
   image: string;
 };
 
