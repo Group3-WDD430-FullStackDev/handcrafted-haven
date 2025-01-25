@@ -1,44 +1,46 @@
 import { IProductCard, IUserCard } from "@/typing/ICards";
 import { JSX } from "react";
+import ProductCard from "../Cards/ProductCard";
+import SellerCard from "../Cards/SellerCard";
 
-// Placeholder Card
-function TestProductCard(data: IProductCard, index: number): JSX.Element {
-  return (
-    <div
-      key={`product-${index}`}
-      className="flex flex-col items-center justify-center bg-slate-100"
-    >
-      PLACEHOLDER CARD
-      <img
-        src={data.prod_image}
-        alt={data.prod_name}
-        width={100}
-        height={100}
-      />
-      <p className="font-bold text-sm">{data.prod_name}</p>
-      <span className="text-lg">{data.prod_price}</span>
-    </div>
-  );
-}
+// // Placeholder Card
+// function TestProductCard(data: IProductCard, index: number): JSX.Element {
+//   return (
+//     <div
+//       key={`product-${index}`}
+//       className="flex flex-col items-center justify-center bg-slate-100"
+//     >
+//       PLACEHOLDER CARD
+//       <img
+//         src={data.prod_image}
+//         alt={data.prod_name}
+//         width={100}
+//         height={100}
+//       />
+//       <p className="font-bold text-sm">{data.prod_name}</p>
+//       <span className="text-lg">{data.prod_price}</span>
+//     </div>
+//   );
+// }
 
-// Placeholder Card
-function TestSellerCard(data: IUserCard, index: number): JSX.Element {
-  return (
-    <div
-      key={`seller-${index}`}
-      className="flex flex-col items-center justify-center bg-slate-100"
-    >
-      PLACEHOLDER CARD
-      <img
-        src={data.user_image}
-        alt={data.user_name}
-        width={100}
-        height={100}
-      />
-      {data.user_name}
-    </div>
-  );
-}
+// // Placeholder Card
+// function TestSellerCard(data: IUserCard, index: number): JSX.Element {
+//   return (
+//     <div
+//       key={`seller-${index}`}
+//       className="flex flex-col items-center justify-center bg-slate-100"
+//     >
+//       PLACEHOLDER CARD
+//       <img
+//         src={data.user_image}
+//         alt={data.user_name}
+//         width={100}
+//         height={100}
+//       />
+//       {data.user_name}
+//     </div>
+//   );
+// }
 
 /**
  * Featured Component that displays an array of either product or seller cards
@@ -59,12 +61,16 @@ export default function Featured({
 
   if (featuredDataType === "product") {
     // If featuredDataType is "product", map the data to the product card template and set the title
-    featuredCards = (featuredData as IProductCard[]).map(TestProductCard);
+    featuredCards = (featuredData as IProductCard[]).map((product, index) => (
+      <ProductCard key={index} {...product} />
+    ));
     featuredTitle = "Featured Products";
   } else if (featuredDataType === "seller") {
     // If featuredDataType is "seller", map the data to the seller card template and set the title
     featuredTitle = "Featured Sellers";
-    featuredCards = (featuredData as IUserCard[]).map(TestSellerCard);
+    featuredCards = (featuredData as IUserCard[]).map((seller, index) => (
+      <SellerCard key={index} {...seller} />
+    ));
   }
 
   // Return the rendered component
