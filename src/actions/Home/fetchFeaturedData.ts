@@ -7,12 +7,8 @@ export async function fetchFeaturedData(): Promise<{
 }> {
   return new Promise((resolve) => {
     resolve({
-      featuredProducts: [...products, ...products, ...products],
-      featuredSellers: [
-        ...users.filter((user) => user.user_is_seller),
-        ...users.filter((user) => user.user_is_seller),
-        ...users.filter((user) => user.user_is_seller),
-      ],
+      featuredProducts: products.slice(0,3),  // limit to 3 products
+      featuredSellers: users.filter((user) => user.user_is_seller).slice(0, 3), // limit to 3 users
     });
   });
 }
