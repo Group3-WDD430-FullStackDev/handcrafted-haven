@@ -1,3 +1,3 @@
 export default function Profile() {
-  return <div>Profile View</div>;
+  return <div>Seller&apos;s Profile View</div>;
 }

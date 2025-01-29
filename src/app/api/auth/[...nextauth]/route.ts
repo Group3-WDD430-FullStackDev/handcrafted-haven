@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import { authOptions } from "../../../../../lib/auth";
+import { authOptions } from "@/app/lib/auth";
 
 console.log("NextAuth handler is being loaded");
 
