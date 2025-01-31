@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.skeleton {
+  @apply bg-handcraftedPink-600 animate-pulse rounded-md;
+}
+
+.paginationButton {
+  @apply p-2;
+}

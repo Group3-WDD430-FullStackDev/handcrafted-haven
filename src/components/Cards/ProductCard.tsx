@@ -1,7 +1,7 @@
 import React from "react";
-import { IProductCard } from "@/typing/ICards";
+import { products } from "@prisma/client";
 
-const ProductCard: React.FC<IProductCard> = ({
+const ProductCard: React.FC<products> = ({
   prod_name,
   prod_image,
   prod_price,
@@ -11,7 +11,7 @@ const ProductCard: React.FC<IProductCard> = ({
       {/* Fixed size for the card */}
       <div className="w-80 h-80 relative">
         <img
-          src={prod_image}
+          src={prod_image || ""}
           alt={`Image of ${prod_name}`}
           className="absolute inset-0 w-full h-full object-cover group-hover:opacity-75"
         />
