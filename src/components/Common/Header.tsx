@@ -15,9 +15,11 @@ export default function Header() {
   if (status === "loading") {
     return (
       <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
-          <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
-            <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">Loading...</div>
-          </nav>
+        <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
+          <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+            Loading...
+          </div>
+        </nav>
       </header>
     );
   }
@@ -27,7 +29,10 @@ export default function Header() {
       <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link
+            href="/"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               HancraftedHaven
             </span>
@@ -109,10 +114,11 @@ export default function Header() {
                 onClick={() => signIn("google")}
                 className="flex items-center justify-center w-8 h-8 border border-slate-200 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
               >
-                <UserIcon 
-                width={40}
-                height={40}
-                className="w-6 h-6 text-gray-700 dark:text-white" />
+                <UserIcon
+                  width={40}
+                  height={40}
+                  className="w-6 h-6 text-gray-700 dark:text-white"
+                />
               </button>
             )}
           </div>
