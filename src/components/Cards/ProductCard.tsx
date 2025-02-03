@@ -3,9 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { IProductCard } from "@/typing/ICards";
-import { products } from "@prisma/client";
 
-const ProductCard: React.FC<products> = ({
+const ProductCard: React.FC<IProductCard> = ({
   prod_id,
   prod_name,
   prod_image,

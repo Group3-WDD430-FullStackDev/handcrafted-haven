@@ -4,22 +4,30 @@ import { IProductCard } from "@/typing/ICards";
 import { Decimal } from "@prisma/client/runtime/library";
 
 export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
-  // queryRaw is used because Prisma doesn't support server-side randomization
-  const products = await prisma.$queryRaw<
+  return new Promise(async (resolve) => {
+    // setTimeout(async () => {
+    // queryRaw is used because Prisma doesn't support server-side randomization
+    const products = await prisma.$queryRaw<
     {
       prod_id: number;
       prod_name: string;
       prod_image: string | null;
       prod_price: Decimal;
     }[]
-  >`SELECT prod_id, prod_name, prod_image, prod_price FROM products ORDER BY RANDOM() LIMIT 3`;
+    >`SELECT prod_id, prod_name, prod_image, prod_price FROM products ORDER BY RANDOM() LIMIT 3`;
 
-  return products.map((product) => ({
-    ...product,
-    // convert from Decimal to number
-    prod_price: product.prod_price.toNumber(),
-    prod_image: product.prod_image ?? "", // Handle potential null values
-  }));
+    resolve(
+      products.map((product) => ({
+        ...product,
+        // convert from Decimal to number
+        prod_price: Number(product.prod_price),
+        prod_image: product.prod_image ?? "", // Handle potential null values 
+      }))
+    );
+    // }, 1000);
+  });
+}
+
 
 const PRODUCTS_PER_PAGE = 10;
 export async function fetchProductPages(): Promise<number> {

@@ -1,12 +1,13 @@
 import { IProductCard, IUserCard } from "@/typing/ICards";
-import { JSX } from "react";
 import ProductCard from "../Cards/ProductCard";
 import SellerCard from "../Cards/SellerCard";
 import { fetchFeaturedProducts } from "@/app/lib/products/queries";
 import { fetchFeaturedSellers } from "@/app/lib/sellers/queries";
+import { JSX } from "react";
 
 /**
  * Featured Component that displays an array of either product or seller cards
+ * @param {IProductCard[] | IUserCard[]} featuredData - An array of either product or seller data
  * @param {"product" | "seller"} featuredDataType - The type of data to display.
  * @returns {JSX.Element} The rendered component
  */
@@ -16,6 +17,8 @@ export default async function Featured({
   featuredDataType: "product" | "seller";
 }): Promise<JSX.Element> {
   let featuredData: IProductCard[] | IUserCard[] = [];
+
+  // Fetch the data depending on the type (product or seller)
   if (featuredDataType === "product") {
     featuredData = await fetchFeaturedProducts();
   } else {
@@ -27,13 +30,11 @@ export default async function Featured({
   let featuredTitle: string = "";
 
   if (featuredDataType === "product") {
-    // If featuredDataType is "product", map the data to the product card template and set the title
+    featuredTitle = "Featured Products";
     featuredCards = (featuredData as IProductCard[]).map((product) => (
       <ProductCard key={product.prod_id} {...product} />
     ));
-    featuredTitle = "Featured Products";
   } else if (featuredDataType === "seller") {
-    // If featuredDataType is "seller", map the data to the seller card template and set the title
     featuredTitle = "Featured Sellers";
     featuredCards = (featuredData as IUserCard[]).map((seller) => (
       <SellerCard key={seller.user_id} {...seller} />
