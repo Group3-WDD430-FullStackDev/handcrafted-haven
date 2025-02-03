@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
 
         if (dbUser) {
           session.user.id = dbUser.user_id; // Add the user ID to the session
+          session.user.displayName = dbUser.displayName;
         }
       }
       console.log("auth.ts [Session]", session);
