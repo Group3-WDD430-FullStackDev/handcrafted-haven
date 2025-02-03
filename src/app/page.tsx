@@ -4,7 +4,7 @@ import FeaturedSkeleton from "@/components/Skeletons/FeaturedSkeleton";
 
 import { Suspense } from "react";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="flex flex-col md:grid md:grid-cols-2 gap-10 mt-12 mx-auto">
       <Banner className="col-span-2" />
