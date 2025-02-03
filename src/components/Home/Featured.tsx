@@ -2,59 +2,26 @@ import { IProductCard, IUserCard } from "@/typing/ICards";
 import { JSX } from "react";
 import ProductCard from "../Cards/ProductCard";
 import SellerCard from "../Cards/SellerCard";
-
-// // Placeholder Card
-// function TestProductCard(data: IProductCard, index: number): JSX.Element {
-//   return (
-//     <div
-//       key={`product-${index}`}
-//       className="flex flex-col items-center justify-center bg-slate-100"
-//     >
-//       PLACEHOLDER CARD
-//       <img
-//         src={data.prod_image}
-//         alt={data.prod_name}
-//         width={100}
-//         height={100}
-//       />
-//       <p className="font-bold text-sm">{data.prod_name}</p>
-//       <span className="text-lg">{data.prod_price}</span>
-//     </div>
-//   );
-// }
-
-// // Placeholder Card
-// function TestSellerCard(data: IUserCard, index: number): JSX.Element {
-//   return (
-//     <div
-//       key={`seller-${index}`}
-//       className="flex flex-col items-center justify-center bg-slate-100"
-//     >
-//       PLACEHOLDER CARD
-//       <img
-//         src={data.user_image}
-//         alt={data.user_name}
-//         width={100}
-//         height={100}
-//       />
-//       {data.user_name}
-//     </div>
-//   );
-// }
+import { fetchFeaturedProducts } from "@/app/lib/products/queries";
+import { fetchFeaturedSellers } from "@/app/lib/sellers/queries";
 
 /**
  * Featured Component that displays an array of either product or seller cards
- * @param {IProductCard[] | IUserCard[]} featuredData - An array of either product or seller data
  * @param {"product" | "seller"} featuredDataType - The type of data to display.
  * @returns {JSX.Element} The rendered component
  */
-export default function Featured({
-  featuredData,
+export default async function Featured({
   featuredDataType,
 }: {
-  featuredData: IProductCard[] | IUserCard[];
   featuredDataType: "product" | "seller";
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  let featuredData: IProductCard[] | IUserCard[] = [];
+  if (featuredDataType === "product") {
+    featuredData = await fetchFeaturedProducts();
+  } else {
+    featuredData = await fetchFeaturedSellers();
+  }
+
   // Initialize Card and Title variables
   let featuredCards: JSX.Element[] = [];
   let featuredTitle: string = "";

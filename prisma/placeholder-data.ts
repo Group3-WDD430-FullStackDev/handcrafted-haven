@@ -5,8 +5,9 @@ const users = [
     email: "seller@example.com",
     displayName: "Jane Doe",
     image: "/users/jane-doe.jpg",
-    user_bio: "I love making handbags. I have been creating designs since I was 12.",
-    user_is_seller: true, 
+    user_bio:
+      "I love making handbags. I have been creating designs since I was 12.",
+    user_is_seller: true,
   },
   {
     // user_id: 7
@@ -14,7 +15,8 @@ const users = [
     email: "email@example.com",
     displayName: "John Doe",
     image: "/users/john-doe.jpg",
-    user_bio: "Ceramics are my life. My shop is full of creative, hand painted designs. All my products are non-toxic and food safe.",
+    user_bio:
+      "Ceramics are my life. My shop is full of creative, hand painted designs. All my products are non-toxic and food safe.",
     user_is_seller: true,
   },
   {
