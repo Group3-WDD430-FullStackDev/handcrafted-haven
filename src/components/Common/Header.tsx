@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { UserIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import SearchBar from "../SearchBar";
@@ -11,6 +10,16 @@ export default function Header() {
   const { data: session, status } = useSession();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const getInitials = (fullName: string) => {
+    console.log("FullName: ", fullName);
+    const nameParts = fullName.split(" ");
+    const initials = nameParts
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("");
+
+    return initials;
+  };
 
   if (status === "loading") {
     return (
@@ -64,7 +73,13 @@ export default function Header() {
                       height={40}
                     />
                   ) : (
-                    <UserIcon className="w-6 h-6 text-gray-700 dark:text-white" />
+                    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-white rounded-full dark:bg-gray-600">
+                      <span className="font-medium text-foreground dark:text-background">
+                        {session?.user?.displayName
+                          ? getInitials(session.user.displayName)
+                          : "NA"}
+                      </span>
+                    </div>
                   )}
                 </button>
 
@@ -74,7 +89,7 @@ export default function Header() {
                 >
                   <div className="px-4 py-3">
                     <span className="block text-sm text-gray-900 dark:text-white">
-                      {session.user?.name}
+                      {session.user?.displayName}
                     </span>
                     <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
                       {session.user?.email}
@@ -109,16 +124,20 @@ export default function Header() {
                 </div>
               </>
             ) : (
-              // Unauthenticated User - Show Sign-In Button
+              // Unauthenticated User - Show Google Sign-In Button
               <button
                 onClick={() => signIn("google")}
-                className="flex items-center justify-center w-8 h-8 border border-slate-200 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+                className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
               >
-                <UserIcon
-                  width={40}
-                  height={40}
-                  className="w-6 h-6 text-gray-700 dark:text-white"
+                <Image
+                  className="w-6 h-6"
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  loading="lazy"
+                  alt="google logo"
+                  height={75}
+                  width={75}
                 />
+                <span>Login</span>
               </button>
             )}
           </div>
