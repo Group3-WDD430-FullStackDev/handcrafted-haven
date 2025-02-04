@@ -53,7 +53,7 @@ export default function Header() {
           </div>
 
           {/* Right Section (Profile & Hamburger) */}
-          <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {session ? (
               // Authenticated User - Show Profile Button
               <>
@@ -85,7 +85,7 @@ export default function Header() {
 
                 {/* Profile Dropdown Menu */}
                 <div
-                  className={`${isProfileOpen ? "block" : "hidden"} z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600`}
+                  className={`${isProfileOpen ? "block" : "hidden"} absolute top-[25px] right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600`}
                 >
                   <div className="px-4 py-3">
                     <span className="block text-sm text-gray-900 dark:text-white">
