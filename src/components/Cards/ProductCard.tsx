@@ -31,8 +31,8 @@ const ProductCard: React.FC<IProductCard> = ({
       </div>
 
       <div className="p-4 flex flex-col justify-between h-[80px]">
-        <h3 className="mt-1 text-lg font-medium text-gray-900">{prod_name}</h3>
-        <p className="mt-1 text-sm text-gray-700">{`$${prod_price}`}</p>
+        <h3 className="mt-1 text-lg font-medium text-gray-900">{`$${prod_price}`}</h3>
+        <p className="mt-1 text-sm text-gray-700">{`${prod_name}`}</p>
       </div>
     </div>
   );
