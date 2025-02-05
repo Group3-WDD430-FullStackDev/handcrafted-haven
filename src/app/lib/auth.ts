@@ -49,7 +49,6 @@ export const authOptions: NextAuthOptions = {
           session.user.displayName = dbUser.displayName;
         }
       }
-      console.log("auth.ts [Session]", session);
       return session;
     },
   },
