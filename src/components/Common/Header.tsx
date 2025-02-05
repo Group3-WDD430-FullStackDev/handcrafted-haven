@@ -12,7 +12,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getInitials = (fullName: string) => {
-    console.log("FullName: ", fullName);
     const nameParts = fullName.split(" ");
     const initials = nameParts
       .map((part) => part.charAt(0).toUpperCase())

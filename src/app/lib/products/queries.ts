@@ -1,8 +1,46 @@
 import { prisma } from "@/app/lib/prisma";
 import { categories } from "@prisma/client";
-import { IProductCard } from "@/typing/ICards";
+import { IProductCard, IProductDetailCard } from "@/typing/ICards";
 import { Decimal } from "@prisma/client/runtime/library";
 import { IProduct } from "@/typing/IProduct";
+
+export async function getProductById(
+  id: string
+): Promise<IProductDetailCard | null> {
+  const product = await prisma.products.findUnique({
+    where: {
+      prod_id: parseInt(id),
+    },
+    include: {
+      users: true,
+      reviews: {
+        include: { users: true },
+      },
+    },
+  });
+
+  if (!product) return null;
+
+  // Map the reviews to match the IProductDetailCard structure
+  const mappedReviews = product.reviews.map((review) => ({
+    id: review.review_id,
+    comment: review.review_text || "",
+    author: review.users.displayName,
+    author_image: review.users.image || null,
+    rating: review.review_rating,
+    date: review.review_date,
+  }));
+
+  return {
+    prod_id: product.prod_id,
+    prod_name: product.prod_name,
+    prod_price: product.prod_price.toNumber(),
+    prod_image: product.prod_image || null,
+    prod_description: product.prod_description || null,
+    prod_seller_image: product.users.image || null,
+    prod_reviews: mappedReviews,
+  };
+}
 
 export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
   return new Promise(async (resolve) => {

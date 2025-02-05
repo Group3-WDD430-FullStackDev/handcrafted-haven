@@ -25,8 +25,8 @@ export const authOptions: NextAuthOptions = {
         where: { googleId: user.id },
         update: {
           email: user.email!,
-          displayName: profile.name || "Unknown",
-          image: user.image || "",
+          // displayName: profile.name || "Unknown",
+          // image: user.image || "",
         },
         create: {
           googleId: user.id,
@@ -50,7 +50,6 @@ export const authOptions: NextAuthOptions = {
           session.user.user_is_seller = dbUser.user_is_seller ?? false;
         }
       }
-      console.log("auth.ts [Session]", session);
       return session;
     },
   },

@@ -1,8 +1,8 @@
 import React from "react";
 
 // This is a placeholder component, made to test the handleClick function in the card component
-const SellerPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const SellerPage = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
 
   return (
     <div>
