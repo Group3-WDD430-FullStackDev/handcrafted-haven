@@ -4,7 +4,7 @@ import NextAuth from "next-auth"; // This is necessary for type augmentation
 declare module "next-auth" {
   interface Session {
     user: {
-      id: number;
+      id: number | undefined;
       email: string;
       image: string | null;
       displayName: string;
