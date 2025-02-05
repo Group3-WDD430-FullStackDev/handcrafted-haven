@@ -1,7 +1,8 @@
 import { prisma } from "@/app/lib/prisma";
-import { products } from "@prisma/client";
+import { categories } from "@prisma/client";
 import { IProductCard, IProductDetailCard } from "@/typing/ICards";
 import { Decimal } from "@prisma/client/runtime/library";
+import { IProduct } from "@/typing/IProduct";
 
 export async function getProductById(
   id: string
@@ -66,34 +67,109 @@ export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
   });
 }
 
+// Constant for number of products to display per page
 const PRODUCTS_PER_PAGE = 10;
-export async function fetchProductPages(): Promise<number> {
-  let data = await prisma.products.findMany({});
 
-  //Testing: create 90 products
-  data = createMultiple(90, data);
-  return data.length / PRODUCTS_PER_PAGE;
+/*
+ * Fetches the number of pages for the product catalog
+ * @param {string} filters - The filters to apply to the query
+ * @returns {Promise<number>} The number of pages
+ */
+export async function fetchProductPages(filters: string): Promise<number> {
+  // getWhereClause is a helper function to get the where clause for the query
+  const whereClause = getWhereClause(filters);
+
+  // query the database for the products
+  const data = await prisma.products.findMany({
+    select: {
+      prod_id: true,
+    },
+    where: whereClause,
+  });
+
+  // return the number of pages
+  return Math.ceil(data.length / PRODUCTS_PER_PAGE);
 }
 
-export async function fetchProducts(page: number): Promise<products[]> {
+/*
+ * Fetches the products for the product catalog
+ * @param {string} page - The current page number
+ * @param {string} filters - The filters to apply to the query
+ * @returns {Promise<IProduct[]>} The products
+ */
+export async function fetchProducts(
+  page: number,
+  filters: string
+): Promise<IProduct[]> {
+  // offfset is the number of products to skip
   const offset = page * PRODUCTS_PER_PAGE;
-  let data = await prisma.products.findMany({});
 
-  // Testing: creates products
-  data = createMultiple(PRODUCTS_PER_PAGE, data, offset);
+  // getWhereClause is a helper function to get the where clause for the query
+  const whereClause = getWhereClause(filters);
+
+  // query the database for the products
+  const rawdata = await prisma.products.findMany({
+    select: {
+      prod_id: true,
+      prod_name: true,
+      prod_description: true,
+      prod_price: true,
+      prod_image: true,
+      product_categories: {
+        select: {
+          categories: {
+            select: {
+              cat_name: true,
+              cat_id: true,
+            },
+          },
+        },
+      },
+    },
+    where: whereClause,
+    skip: offset,
+    take: PRODUCTS_PER_PAGE,
+  });
+
+  // convert from Decimal to number because Decimal is not JSON serializable
+  const data = rawdata.map((x) => ({
+    ...x,
+    prod_price: Number(x.prod_price),
+  }));
+
+  // return the products
+  return data;
+}
+
+/*
+ * Fetches the filter categories for the catalog page
+ * @returns {Promise<categories[]>} The categories
+ */
+export async function fetchProductCategories(): Promise<categories[]> {
+  const data = await prisma.categories.findMany({});
 
   return data;
 }
 
-// For testing
-// Creates (length) number of products for testing the pagination feature
-function createMultiple(
-  length: number,
-  data: products[],
-  offset: number = 0
-): products[] {
-  return Array.from({ length: length }, (_, i: number) => ({
-    ...data[0],
-    prod_name: "Handbag " + (i + offset).toString(),
-  })).flat();
+// Helper function to get the where clause for the query
+function getWhereClause(filters: string) {
+  // split the filters into an array
+  const filterArr = filters.split(",").map((x) => +x.split("-")[0]);
+
+  // if there is more than one filter, return the where clause
+  const whereClause =
+    filterArr.length > 1
+      ? {
+          product_categories: {
+            some: {
+              categories: {
+                cat_id: {
+                  in: filterArr,
+                },
+              },
+            },
+          },
+        }
+      : {};
+  return whereClause;
 }
