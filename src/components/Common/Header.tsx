@@ -19,19 +19,9 @@ export default function Header() {
 
     return initials;
   };
+  console.log(session);
 
-  if (status === "loading") {
-    return (
-      <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
-        <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
-          <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-            Loading...
-          </div>
-        </nav>
-      </header>
-    );
-  }
-
+  
   return (
     <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
       <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
@@ -53,7 +43,10 @@ export default function Header() {
 
           {/* Right Section (Profile & Hamburger) */}
           <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            {session ? (
+            {/* If status is loading, show a spinning icon */}
+            {status === "loading" ? (
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            ): session ? (
               // Authenticated User - Show Profile Button
               <>
                 <button
