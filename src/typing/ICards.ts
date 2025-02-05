@@ -9,5 +9,5 @@ export type IProductCard = {
   prod_id: number;
   prod_name: string;
   prod_price: number;
-  prod_image: string;
+  prod_image: string | null;
 };
