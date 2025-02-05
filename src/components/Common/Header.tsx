@@ -8,6 +8,7 @@ import SearchBar from "../SearchBar";
 
 export default function Header() {
   const { data: session, status } = useSession();
+  console.log(status);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

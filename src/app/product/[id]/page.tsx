@@ -3,7 +3,7 @@ import { getProductById } from "@/app/lib/products/queries";
 import ProductDetailCard from "@/components/Cards/ProductDetailsCard";
 
 // This is a placeholder component, made to test the handleClick function in the card component
-const ProductPage = async ({ params }: { params: { id: string } }) => {
+const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const product = await getProductById(id);
 
