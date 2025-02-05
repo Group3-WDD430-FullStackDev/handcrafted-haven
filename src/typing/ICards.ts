@@ -20,9 +20,9 @@ export type IProductDetailCard = IProductCard & {
 
 export type IReview = {
   id: number;
-    comment: string | null;
-    author: string;
-    author_image: string | null;
-    rating: number;
-    date: Date | null;
-}
+  comment: string | null;
+  author: string;
+  author_image: string | null;
+  rating: number;
+  date: Date | null;
+};

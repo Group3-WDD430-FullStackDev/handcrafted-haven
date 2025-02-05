@@ -14,7 +14,7 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
   // Layout based on https://tailwindflex.com/@dika99/product-details-page
   return (
     <div className="bg-gray-100 flex items-center justify-center">
-      <ProductDetailCard product={product}/>
+      <ProductDetailCard product={product} />
     </div>
   );
 };

@@ -14,8 +14,8 @@ export async function getProductById(
     include: {
       users: true,
       reviews: {
-        include: {users: true}
-      }
+        include: { users: true },
+      },
     },
   });
 
