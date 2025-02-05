@@ -25,8 +25,8 @@ export const authOptions: NextAuthOptions = {
         where: { googleId: user.id },
         update: {
           email: user.email!,
-          displayName: profile.name || "Unknown",
-          image: user.image || "",
+          // displayName: profile.name || "Unknown",
+          // image: user.image || "",
         },
         create: {
           googleId: user.id,
