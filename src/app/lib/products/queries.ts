@@ -68,7 +68,7 @@ export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
 }
 
 // Constant for number of products to display per page
-const PRODUCTS_PER_PAGE = 10;
+const PRODUCTS_PER_PAGE = 30;
 
 /*
  * Fetches the number of pages for the product catalog
