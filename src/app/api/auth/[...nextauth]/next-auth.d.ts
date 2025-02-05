@@ -8,6 +8,7 @@ declare module "next-auth" {
       email: string;
       image: string | null;
       displayName: string;
+      user_is_seller: boolean;
     };
   }
 }
