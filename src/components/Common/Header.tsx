@@ -1,10 +1,11 @@
 "use client";
 
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import SearchBar from "../SearchBar";
+// import SearchBar from "../SearchBar";
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -20,23 +21,35 @@ export default function Header() {
 
     return initials;
   };
-
-  if (status === "loading") {
-    return (
-      <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
-        <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
-          <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-            Loading...
-          </div>
-        </nav>
-      </header>
-    );
-  }
+  console.log(session);
 
   return (
     <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
       <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen ? "true" : "false"}
+          >
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
           {/* Logo */}
           <Link
             href="/"
@@ -47,14 +60,35 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Middle Section (SearchBar) */}
-          <div className="flex-1 flex justify-center max-w-[500px] mx-auto">
-            <SearchBar />
+          {/* Middle Section (Navigation Links)*/}
+          <div
+            id="nav-menu"
+            className={clsx(
+              "absolute top-16 left-0 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg flex flex-col space-y-2 p-2 z-50",
+              "md:static md:w-auto md:bg-transparent md:shadow-none md:flex md:flex-row md:space-x-8 md:space-y-0 md:p-0",
+              { hidden: !isMenuOpen, flex: isMenuOpen }
+            )}
+          >
+            <Link
+              className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+              href="/catalog"
+            >
+              Catalog
+            </Link>
+            <Link
+              className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+              href="/sellers"
+            >
+              Sellers
+            </Link>
           </div>
 
-          {/* Right Section (Profile & Hamburger) */}
+          {/* Right Section (Profile) */}
           <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            {session ? (
+            {/* If status is loading, show a spinning icon */}
+            {status === "loading" ? (
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            ) : session ? (
               // Authenticated User - Show Profile Button
               <>
                 <button
@@ -63,7 +97,6 @@ export default function Header() {
                   className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                   aria-expanded={isProfileOpen ? "true" : "false"}
                 >
-                  <span className="sr-only">Open user menu</span>
                   {session.user?.image ? (
                     <Image
                       className="w-8 h-8 rounded-full"
@@ -97,20 +130,21 @@ export default function Header() {
                   </div>
                   <ul className="py-2">
                     <li>
-                      <Link
-                        href="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/settings"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
-                      >
-                        Settings
-                      </Link>
+                      {session.user?.user_is_seller ? (
+                        <Link
+                          href="/dashboard"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                        >
+                          Seller Dashboard
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/seller/create"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                        >
+                          Become Seller
+                        </Link>
+                      )}
                     </li>
                     <li>
                       <button
@@ -141,80 +175,6 @@ export default function Header() {
               </button>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-expanded={isMenuOpen ? "true" : "false"}
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile Menu (links) */}
-        <div
-          className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}
-          id="navbar-user"
-        >
-          <ul className="flex flex-col space-y-4 p-4 bg-gray-50 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent">
-            <li>
-              <Link
-                href="/"
-                className="block py-2 px-3 text-blue-700 md:text-white rounded-sm md:bg-transparent md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/about"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/services"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/pricing"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Pricing
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
         </div>
       </nav>
     </header>
