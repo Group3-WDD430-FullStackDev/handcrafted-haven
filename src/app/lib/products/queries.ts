@@ -158,8 +158,8 @@ export async function fetchProductCategories(): Promise<categories[]> {
 // Helper function to get the where clause for the query
 function getWhereClause(filters: IFilterParams) {
   const whereClause: {
-    product_categories?: {};
-    user_id?: {};
+    product_categories?: object;
+    user_id?: object;
   } = {};
 
   if ("Category" in filters && filters.Category) {

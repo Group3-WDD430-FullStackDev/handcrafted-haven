@@ -26,7 +26,11 @@ export default function Pagination({
     <div className="mt-2 flex flex-col w-full justify-center items-center col-span-2">
       <span>{`Page ${currentPage} of ${pageCount}`}</span>
       <div className=" flex flex-row justify-center border-2 border-handcraftedSlate-100 rounded-lg [&>a]:flex [&>a]:items-center [&>a]:justify-center">
-        <Link href={createPaginationURLs(1)} className="paginationButton" aria-label="Skip to start page">
+        <Link
+          href={createPaginationURLs(1)}
+          className="paginationButton"
+          aria-label="Skip to start page"
+        >
           <ChevronDoubleLeftIcon className="w-4" />
         </Link>
         <Link

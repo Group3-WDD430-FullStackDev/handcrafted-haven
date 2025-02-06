@@ -30,7 +30,7 @@ export default function SellerProfile({ sellerData }: { sellerData: users }) {
         className="absolute right-2 top-2 p-2 rounded-md flex flex-col items-center justify-center bg-handcraftedBlue-300"
         aria-label="Edit Profile"
       >
-        <PencilIcon width={30} height={20} className="fill-slate-700"/>
+        <PencilIcon width={30} height={20} className="fill-slate-700" />
       </button>
     </div>
   );

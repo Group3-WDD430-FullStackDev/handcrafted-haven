@@ -66,7 +66,7 @@ export default function Sidebar({
       )}
       onClick={() => {
         setIsOpen(false);
-        console.log("HI")
+        console.log("HI");
       }}
     >
       <div className="flex flex-col h-full rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">

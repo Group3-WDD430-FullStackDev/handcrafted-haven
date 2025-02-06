@@ -1,5 +1,4 @@
 "use client";
-import { categories, users } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { JSX } from "react";
 
