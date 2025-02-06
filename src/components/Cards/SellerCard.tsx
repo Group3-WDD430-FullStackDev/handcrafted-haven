@@ -13,7 +13,7 @@ const SellerCard: React.FC<IUserCard> = ({
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/sellers/${user_id}`);
+    router.push(`/dashboard/${user_id}`);
   };
   const imageUrl = image.startsWith("http") ? image : `/users/${image}`;
   const truncatedBio =

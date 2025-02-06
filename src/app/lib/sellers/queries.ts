@@ -1,5 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { IUserCard } from "@/typing/ICards";
+import { users } from "@prisma/client";
 
 export async function fetchFeaturedSellers(): Promise<IUserCard[]> {
   return new Promise(async (resolve) => {
@@ -24,4 +25,24 @@ export async function fetchFeaturedSellers(): Promise<IUserCard[]> {
     );
     // }, 1000);
   });
+}
+
+export async function fetchSellerData(
+  sellerId?: number
+): Promise<users | null> {
+  const sellerData = await prisma.users.findUnique({
+    where: {
+      user_id: sellerId,
+    },
+  });
+  return sellerData;
+}
+
+export async function fetchAllSellers(): Promise<users[]> {
+  const sellers = await prisma.users.findMany({
+    where: {
+      user_is_seller: true,
+    },
+  });
+  return sellers;
 }

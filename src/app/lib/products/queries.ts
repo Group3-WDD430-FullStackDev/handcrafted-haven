@@ -3,6 +3,7 @@ import { categories } from "@prisma/client";
 import { IProductCard, IProductDetailCard } from "@/typing/ICards";
 import { Decimal } from "@prisma/client/runtime/library";
 import { IProduct } from "@/typing/IProduct";
+import IFilterParams from "@/typing/IFilterParams";
 
 export async function getProductById(
   id: string
@@ -75,7 +76,9 @@ const PRODUCTS_PER_PAGE = 30;
  * @param {string} filters - The filters to apply to the query
  * @returns {Promise<number>} The number of pages
  */
-export async function fetchProductPages(filters: string): Promise<number> {
+export async function fetchProductPages(
+  filters: IFilterParams
+): Promise<number> {
   // getWhereClause is a helper function to get the where clause for the query
   const whereClause = getWhereClause(filters);
 
@@ -99,7 +102,7 @@ export async function fetchProductPages(filters: string): Promise<number> {
  */
 export async function fetchProducts(
   page: number,
-  filters: string
+  filters: IFilterParams
 ): Promise<IProduct[]> {
   // offfset is the number of products to skip
   const offset = page * PRODUCTS_PER_PAGE;
@@ -125,6 +128,7 @@ export async function fetchProducts(
           },
         },
       },
+      user_id: true,
     },
     where: whereClause,
     skip: offset,
@@ -152,24 +156,29 @@ export async function fetchProductCategories(): Promise<categories[]> {
 }
 
 // Helper function to get the where clause for the query
-function getWhereClause(filters: string) {
-  // split the filters into an array
-  const filterArr = filters.split(",").map((x) => +x.split("-")[0]);
+function getWhereClause(filters: IFilterParams) {
+  const whereClause: {
+    product_categories?: {};
+    user_id?: {};
+  } = {};
 
-  // if there is more than one filter, return the where clause
-  const whereClause =
-    filterArr.length > 1
-      ? {
-          product_categories: {
-            some: {
-              categories: {
-                cat_id: {
-                  in: filterArr,
-                },
-              },
-            },
+  if ("Category" in filters && filters.Category) {
+    const categoryFilters = filters.Category?.split(",").map((x) => +x);
+    whereClause.product_categories = {
+      some: {
+        categories: {
+          cat_id: {
+            in: categoryFilters,
           },
-        }
-      : {};
+        },
+      },
+    };
+  }
+  if ("Seller" in filters && filters.Seller) {
+    const sellerFilters = filters.Seller?.split(",").map((x) => +x);
+    whereClause.user_id = {
+      in: sellerFilters,
+    };
+  }
   return whereClause;
 }
