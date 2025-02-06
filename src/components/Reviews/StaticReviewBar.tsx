@@ -43,7 +43,14 @@ export default function StaticReviewBar({
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="size-5 text-yellow-500 absolute top-0 left-0"
+                className={clsx(
+                  "size-5",
+                  "absolute",
+                  "top-0",
+                  "left-0",
+                  reviewData.isSummaryReview ? "size-6" : "size-5",
+                  "text-yellow-500"
+                )}
               >
                 <path
                   fillRule="evenodd"
@@ -59,7 +66,14 @@ export default function StaticReviewBar({
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="size-5 text-yellow-500 absolute top-0 left-0"
+                className={clsx(
+                  "size-5",
+                  "absolute",
+                  "top-0",
+                  "left-0",
+                  reviewData.isSummaryReview ? "size-6" : "size-5",
+                  "text-yellow-500"
+                )}
               >
                 <defs>
                   <clipPath id={`half-star-${index}`}>
