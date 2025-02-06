@@ -3,6 +3,7 @@
 import { JSX } from "react";
 import { montserrat } from "../fonts";
 import clsx from "clsx";
+import Link from "next/link";
 // import SearchBar from "../SearchBar";
 
 /**
@@ -64,11 +65,16 @@ export default function Banner({
             Discover Amazing Products
           </h3>
           <div className="w-full relative flex flex-row justify-center gap-9 mb-9">
-            <button className="bg-blue-500 hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-              View Catalog
-            </button>
-            <button className="bg-blue-500 hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-              View Sellers</button>
+            <Link href="/catalog">
+              <button className="bg-blue-500 hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                View Catalog
+              </button>
+            </Link>
+            <Link href="/sellers">
+              <button className="bg-blue-500 hover:bg-blue-400 text-black font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                View Sellers
+              </button>
+            </Link>
           </div>
           {/* <SearchBar /> */}
         </div>
