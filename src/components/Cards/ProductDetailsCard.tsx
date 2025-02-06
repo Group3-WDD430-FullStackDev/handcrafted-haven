@@ -3,7 +3,6 @@ import { IProductDetailCard, IReview } from "@/typing/ICards";
 import Image from "next/image";
 import UserProfilePic from "../Users/UserProfilePic";
 import StaticReviewBar from "../Reviews/StaticReviewBar";
-import { reviews } from "../../../prisma/placeholder-data";
 
 const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
   product,
