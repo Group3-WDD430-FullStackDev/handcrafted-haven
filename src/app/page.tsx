@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col md_lg:grid md:grid-cols-2 gap-10 mt-12 mx-auto">
+    <div className="flex flex-col md_lg:grid md:grid-cols-2 gap-10 mt-2 mx-auto">
       <Banner className="col-span-2" />
       <Suspense fallback={<FeaturedSkeleton featuredDataType="product" />}>
         <Featured featuredDataType="product" />
