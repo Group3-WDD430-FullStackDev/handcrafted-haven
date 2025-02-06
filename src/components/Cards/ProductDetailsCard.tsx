@@ -3,10 +3,30 @@ import { IProductDetailCard, IReview } from "@/typing/ICards";
 import Image from "next/image";
 import UserProfilePic from "../Users/UserProfilePic";
 import StaticReviewBar from "../Reviews/StaticReviewBar";
+import { reviews } from "../../../prisma/placeholder-data";
 
 const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
   product,
 }) => {
+  // Get the summary information from product reviews
+  const reviewSummary = product.prod_reviews.reduce(
+    (acc, review) => {
+      // Add the review rating to the total
+      acc.totalRatings += review.rating;
+
+      // Increment the total number of reviews
+      acc.totalReviews += 1;
+
+      return acc;
+    },
+    { totalRatings: 0, totalReviews: 0 }
+  );
+
+  // calculate the average rating
+  const averageRating = reviewSummary.totalReviews
+    ? reviewSummary.totalRatings / reviewSummary.totalReviews
+    : 0;
+
   return (
     <div className="container mx-auto px-2 py-6 flex flex-col md:flex-row gap-3">
       {/* Product Image */}
@@ -31,8 +51,8 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
             {/*Review Bar */}
             <StaticReviewBar
               reviewData={{
-                reviewRating: 4.5,
-                totalReviews: 200,
+                reviewRating: averageRating,
+                totalReviews: reviewSummary.totalReviews,
                 isSummaryReview: true,
               }}
             />
