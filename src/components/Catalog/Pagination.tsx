@@ -26,12 +26,17 @@ export default function Pagination({
     <div className="mt-2 flex flex-col w-full justify-center items-center col-span-2">
       <span>{`Page ${currentPage} of ${pageCount}`}</span>
       <div className=" flex flex-row justify-center border-2 border-handcraftedSlate-100 rounded-lg [&>a]:flex [&>a]:items-center [&>a]:justify-center">
-        <Link href={createPaginationURLs(1)} className="paginationButton">
+        <Link
+          href={createPaginationURLs(1)}
+          className="paginationButton"
+          aria-label="Skip to start page"
+        >
           <ChevronDoubleLeftIcon className="w-4" />
         </Link>
         <Link
           href={createPaginationURLs(currentPage - 1)}
           className="paginationButton"
+          aria-label="Navigate to Previous Page"
         >
           <ChevronLeftIcon className="w-4" />
         </Link>
@@ -61,12 +66,14 @@ export default function Pagination({
         <Link
           href={createPaginationURLs(currentPage + 1)}
           className="paginationButton"
+          aria-label="Navigate to next page"
         >
           <ChevronRightIcon className="w-4" />
         </Link>
         <Link
           href={createPaginationURLs(pageCount)}
           className="paginationButton"
+          aria-label="Skip to last page"
         >
           <ChevronDoubleRightIcon className="w-4" />
         </Link>

@@ -46,7 +46,6 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
-      console.log("Get Session");
       if (token.sub) {
         const dbUser = await prisma.users.findUnique({
           where: { googleId: token.sub },
@@ -58,7 +57,6 @@ export const authOptions: NextAuthOptions = {
           session.user.user_is_seller = dbUser.user_is_seller ?? false;
         }
       }
-      console.log(session);
       return session;
     },
   },

@@ -10,11 +10,8 @@ import UserProfilePic from "../Users/UserProfilePic";
 
 export default function Header() {
   const { data: session, status } = useSession();
-  console.log(status);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  console.log(session);
 
   return (
     <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
@@ -114,7 +111,7 @@ export default function Header() {
                     <li>
                       {session.user?.user_is_seller ? (
                         <Link
-                          href="/dashboard"
+                          href={`/dashboard/${session.user.id}`}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                         >
                           Seller Dashboard
