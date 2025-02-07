@@ -5,21 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import UserProfilePic from "../Users/UserProfilePic";
 // import SearchBar from "../SearchBar";
 
 export default function Header() {
   const { data: session, status } = useSession();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const getInitials = (fullName: string) => {
-    const nameParts = fullName.split(" ");
-    const initials = nameParts
-      .map((part) => part.charAt(0).toUpperCase())
-      .join("");
-
-    return initials;
-  };
 
   return (
     <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
@@ -95,23 +87,12 @@ export default function Header() {
                   className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                   aria-expanded={isProfileOpen ? "true" : "false"}
                 >
-                  {session.user?.image ? (
-                    <Image
-                      className="w-8 h-8 rounded-full"
-                      src={session.user.image}
-                      alt="User Photo"
-                      width={40}
-                      height={40}
-                    />
-                  ) : (
-                    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-white rounded-full dark:bg-gray-600">
-                      <span className="font-medium text-foreground dark:text-background">
-                        {session?.user?.displayName
-                          ? getInitials(session.user.displayName)
-                          : "NA"}
-                      </span>
-                    </div>
-                  )}
+                  <UserProfilePic
+                    user={{
+                      image: session.user.image,
+                      displayName: session.user.displayName,
+                    }}
+                  />
                 </button>
 
                 {/* Profile Dropdown Menu */}

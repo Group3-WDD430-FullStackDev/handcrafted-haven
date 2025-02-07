@@ -1,10 +1,31 @@
 import React from "react";
 import { IProductDetailCard, IReview } from "@/typing/ICards";
 import Image from "next/image";
+import UserProfilePic from "../Users/UserProfilePic";
+import StaticReviewBar from "../Reviews/StaticReviewBar";
 
 const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
   product,
 }) => {
+  // Get the summary information from product reviews
+  const reviewSummary = product.prod_reviews.reduce(
+    (acc, review) => {
+      // Add the review rating to the total
+      acc.totalRatings += review.rating;
+
+      // Increment the total number of reviews
+      acc.totalReviews += 1;
+
+      return acc;
+    },
+    { totalRatings: 0, totalReviews: 0 }
+  );
+
+  // calculate the average rating
+  const averageRating = reviewSummary.totalReviews
+    ? reviewSummary.totalRatings / reviewSummary.totalReviews
+    : 0;
+
   return (
     <div className="container mx-auto px-2 py-6 flex flex-col md:flex-row gap-3">
       {/* Product Image */}
@@ -26,73 +47,17 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
         <div className="flex justify-between">
           <div>
             <h2 className="text-3xl font-bold mb-2">{product.prod_name}</h2>
+            {/*Review Bar */}
+            <StaticReviewBar
+              reviewData={{
+                reviewRating: averageRating,
+                totalReviews: reviewSummary.totalReviews,
+                isSummaryReview: true,
+              }}
+            />
             <p className="text-2xl font-bold mr-2">
               ${product.prod_price.toString()}
             </p>
-            {/*Review Bar */}
-            <div className="flex items-center my-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6 text-yellow-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6 text-yellow-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6 text-yellow-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6 text-yellow-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6 text-yellow-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="ml-2 text-gray-600">4.5 (120 reviews)</span>
-            </div>
           </div>
           {product.prod_seller_image && (
             <Image
@@ -117,7 +82,25 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
           ) : (
             product.prod_reviews.map((review: IReview) => (
               <div key={review.id} className="p-4 border-b">
-                <p className="text-gray-700">{review.comment}</p>
+                <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-row justify-start items-center">
+                    <UserProfilePic
+                      user={{
+                        image: review.author_image,
+                        displayName: review.author,
+                      }}
+                    />
+                    <p className="ps-2">{review.author}</p>
+                  </div>
+                  <StaticReviewBar
+                    reviewData={{
+                      reviewRating: review.rating,
+                      totalReviews: null,
+                      isSummaryReview: false,
+                    }}
+                  />
+                </div>
+                <p className="text-gray-700 mt-5">{review.comment}</p>
               </div>
             ))
           )}
