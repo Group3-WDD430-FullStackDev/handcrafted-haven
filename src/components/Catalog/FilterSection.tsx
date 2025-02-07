@@ -1,5 +1,4 @@
 "use client";
-import { categories } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { JSX } from "react";
 
@@ -8,11 +7,14 @@ export default function FilterSection({
   options,
 }: {
   title: string;
-  options: categories[];
+  options: {
+    id: number;
+    name: string;
+  }[];
 }): JSX.Element {
   const searchParams = useSearchParams();
-  const filterString = searchParams.get("filters") || "";
-  const filters = filterString.split(",");
+  const filterString = searchParams.get(title) || "";
+  const filters = filterString ? filterString.split(",") : [];
 
   function setURL(value: string) {
     const url = new URL(window.location.href);
@@ -22,17 +24,18 @@ export default function FilterSection({
       filters.push(value);
     }
     const newFilters = filters.join(",");
-    url.searchParams.set("filters", newFilters);
+    url.searchParams.set(title, newFilters);
     window.location.href = url.toString();
   }
   return (
     <div className="flex flex-col p-2">
       <span className="font-bold">{title}</span>
       {options.map((option) => {
-        const filter_id = `${option.cat_id}-${title}`;
+        const option_id = option.id.toString();
+        const filter_id = `${option.id}-${title}`;
         return (
           <label
-            onClick={() => setURL(filter_id)}
+            onClick={() => setURL(option_id)}
             htmlFor={filter_id}
             key={filter_id}
             className="flex flex-row items-center justify-start gap-2 p-1"
@@ -41,9 +44,9 @@ export default function FilterSection({
               type="checkbox"
               name={filter_id}
               id={filter_id}
-              defaultChecked={filters.includes(filter_id)}
+              defaultChecked={filters.includes(option_id)}
             />
-            {option.cat_name}
+            {option.name}
           </label>
         );
       })}
