@@ -1,18 +1,27 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { IProductCard } from "@/typing/ICards";
 import Link from "next/link";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 
 const ProductCard: React.FC<IProductCard> = ({
   prod_id,
   prod_name,
   prod_image,
   prod_price,
+  user_id,
 }) => {
   const router = useRouter();
+  // check if on the dashboard page (to allow editing icon)
+  const pathname = usePathname();
+  const isDashboardPage = pathname === `/dashboard/${user_id}`;
+
+  // check if the seller profile matches the logged in user
+  const { data: session } = useSession();
+  const isUserOwner = session?.user?.id === user_id;
 
   const handleClick = () => {
     router.push(`/product/${prod_id}`);
@@ -36,13 +45,15 @@ const ProductCard: React.FC<IProductCard> = ({
         />
 
         {/* Pencil Icon for Edit Button */}
-        <Link
-          href={`/product/${prod_id}/edit`}
-          className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg hover:bg-gray-100"
-          onClick={handlePencilClick}
-        >
-          <PencilIcon width={20} height={20} className="text-gray-700" />
-        </Link>
+        {isUserOwner && isDashboardPage && (
+          <Link
+            href={`/product/${prod_id}/edit`}
+            className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg hover:bg-gray-100"
+            onClick={handlePencilClick}
+          >
+            <PencilIcon width={20} height={20} className="text-gray-700" />
+          </Link>
+        )}
       </div>
 
       {/* Product Information */}

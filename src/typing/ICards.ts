@@ -10,6 +10,7 @@ export type IProductCard = {
   prod_name: string;
   prod_price: number;
   prod_image: string | null;
+  user_id: number;
 };
 
 export type IProductDetailCard = IProductCard & {
@@ -18,6 +19,10 @@ export type IProductDetailCard = IProductCard & {
   prod_seller_image: string | null;
   prod_reviews: IReview[];
   prod_categories: number[]; // array of category ids
+};
+
+export type IProductCardWithUserId = IProductCard & {
+  user_id: number;
 };
 
 export type IReview = {

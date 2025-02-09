@@ -51,6 +51,7 @@ export async function getProductById(
     prod_seller_image: product.users.image || null,
     prod_reviews: mappedReviews,
     prod_categories: mappedCategories,
+    user_id: product.user_id,
   };
 }
 
@@ -64,6 +65,7 @@ export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
         prod_name: string;
         prod_image: string | null;
         prod_price: Decimal;
+        user_id: number;
       }[]
     >`SELECT prod_id, prod_name, prod_image, prod_price FROM products ORDER BY RANDOM() LIMIT 3`;
 
