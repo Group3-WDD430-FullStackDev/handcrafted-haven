@@ -4,22 +4,14 @@ import { useState } from "react";
 import { categories } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { notFound, useRouter } from "next/navigation";
+import { IProductDetailCard } from "@/typing/ICards";
 
 interface FormProps {
   categories: categories[];
+  product: IProductDetailCard;
 }
 
-export default function Form({ categories }: FormProps) {
-  const [formData, setFormData] = useState({
-    prod_name: "",
-    prod_description: "",
-    prod_price: "",
-    prod_image: "",
-    selectedCategories: [] as number[],
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export default function EditForm({ categories, product }: FormProps) {
   const { data: session } = useSession();
   const router = useRouter();
   const user_id = session?.user?.id;
@@ -27,6 +19,19 @@ export default function Form({ categories }: FormProps) {
   if (!user_id) {
     notFound();
   }
+
+  const [formData, setFormData] = useState({
+    prod_name: product.prod_name,
+    prod_description: product.prod_description || "",
+    prod_price: product.prod_price.toString(),
+    prod_image: product.prod_image || "",
+    selectedCategories: product.prod_categories || [],
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] =
+    useState(false);
 
   // Handle input changes
   const handleChange = (
@@ -45,7 +50,7 @@ export default function Form({ categories }: FormProps) {
     }));
   };
 
-  // Handle form submission
+  // Handle update form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -59,28 +64,21 @@ export default function Form({ categories }: FormProps) {
     }
 
     try {
-      const response = await fetch("/api/products/create", {
-        method: "POST",
+      const response = await fetch(`/api/products/${product.prod_id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           prod_price: parseFloat(formData.prod_price),
+          categories: formData.selectedCategories,
           user_id,
         }),
       });
 
-      if (!response.ok) throw new Error("Failed to add product");
+      if (!response.ok) throw new Error("Failed to update product");
 
-      // Redirect or reset form after success
-      setFormData({
-        prod_name: "",
-        prod_description: "",
-        prod_price: "",
-        prod_image: "",
-        selectedCategories: [],
-      });
-
-      router.push(`/dashboard/${user_id}`);
+      // Redirect after successful update
+      router.push(`/product/${product.prod_id}`);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -89,6 +87,34 @@ export default function Form({ categories }: FormProps) {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle delete
+  const handleDelete = async () => {
+    if (isDeleteConfirmationVisible) {
+      setLoading(true);
+
+      try {
+        const response = await fetch(`/api/products/${product.prod_id}`, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) throw new Error("Failed to delete product");
+
+        // Redirect back to seller dashboard after successful deletion
+        router.push(`/dashboard/${user_id}`);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setDeleteConfirmationVisible(true);
     }
   };
 
@@ -179,6 +205,28 @@ export default function Form({ categories }: FormProps) {
         )}
       </fieldset>
 
+      {isDeleteConfirmationVisible && (
+        <div className="mt-4 p-4 border rounded-md bg-yellow-50 text-yellow-600">
+          <p>Are you sure you want to delete this product?</p>
+          <div className="mt-2">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded-md mr-2"
+            >
+              Yes, Delete
+            </button>
+            <button
+              type="button"
+              onClick={() => setDeleteConfirmationVisible(false)}
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between">
         <button
           type="button"
@@ -187,12 +235,22 @@ export default function Form({ categories }: FormProps) {
         >
           Cancel
         </button>
+        {!isDeleteConfirmationVisible && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="px-4 py-2 bg-red-600 text-white rounded-md"
+          >
+            Delete Product
+          </button>
+        )}
+
         <button
           type="submit"
           disabled={loading}
           className="px-4 py-2 bg-blue-600 text-white rounded-md"
         >
-          {loading ? "Adding..." : "Add Product"}
+          {loading ? "Updating..." : "Update Product"}
         </button>
       </div>
     </form>

@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
           where: { googleId: token.sub },
         });
 
-        if (dbUser) {
+        if (dbUser && session.user) {
           session.user.id = dbUser.user_id; // Add the user ID to the session
           session.user.displayName = dbUser.displayName;
           session.user.user_is_seller = dbUser.user_is_seller ?? false;
