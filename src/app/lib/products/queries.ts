@@ -17,6 +17,11 @@ export async function getProductById(
       reviews: {
         include: { users: true },
       },
+      product_categories: {
+        select: {
+          cat_id: true,
+        },
+      },
     },
   });
 
@@ -32,14 +37,21 @@ export async function getProductById(
     date: review.review_date,
   }));
 
+  const mappedCategories = product.product_categories.map(
+    (prodCat) => prodCat.cat_id
+  );
+
   return {
     prod_id: product.prod_id,
     prod_name: product.prod_name,
     prod_price: product.prod_price.toNumber(),
     prod_image: product.prod_image || null,
     prod_description: product.prod_description || null,
+    prod_seller_id: product.user_id,
     prod_seller_image: product.users.image || null,
     prod_reviews: mappedReviews,
+    prod_categories: mappedCategories,
+    user_id: product.user_id,
   };
 }
 
@@ -53,6 +65,7 @@ export async function fetchFeaturedProducts(): Promise<IProductCard[]> {
         prod_name: string;
         prod_image: string | null;
         prod_price: Decimal;
+        user_id: number;
       }[]
     >`SELECT prod_id, prod_name, prod_image, prod_price FROM products ORDER BY RANDOM() LIMIT 3`;
 

@@ -35,6 +35,7 @@ export default async function Dashboard(props: {
       cards={cards}
       categories={categories}
       sellers={sellers}
+      isUserOwner={false}
       currentPage={currentPage}
       pageCount={pageCount}
     />

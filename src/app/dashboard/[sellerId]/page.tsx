@@ -6,10 +6,12 @@ import {
 } from "@/app/lib/products/queries";
 import CardCatalog from "@/components/Catalog/CardCatalog";
 import { fetchSellerData } from "@/app/lib/sellers/queries";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 
 export default async function Dashboard(props: {
   params: Promise<{
-    sellerId: string;
+    sellerId: string; // session user id
   }>;
   searchParams?: Promise<{
     query?: string;
@@ -17,13 +19,16 @@ export default async function Dashboard(props: {
     Category: string;
   }>;
 }) {
+  const session = await getServerSession(authOptions);
+  const loggedInUser = session?.user?.id;
+
   const searchParams = await props.searchParams;
   const sellerId = (await props.params).sellerId;
   const sellerData = await fetchSellerData(+sellerId);
   if (!sellerData) {
     return <div>Invalid Seller Id</div>;
   }
-
+  const isUserOwner = sellerId === String(loggedInUser);
   const currentPage = +(searchParams?.page || 1);
   const categoryFilter = searchParams?.Category;
   const filters = {
@@ -45,6 +50,7 @@ export default async function Dashboard(props: {
         cards={cards}
         categories={categories}
         sellers={[]}
+        isUserOwner={isUserOwner}
         currentPage={currentPage}
         pageCount={pageCount}
       />

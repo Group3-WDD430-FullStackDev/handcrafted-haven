@@ -4,10 +4,17 @@ import { prisma } from "@/app/lib/prisma";
 // Update a product (PUT)
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const prod_id = parseInt(params.id); // Convert id from string to number
+    const prod_id = await parseInt((await params).id); // Convert id from string to number
+    if (isNaN(prod_id)) {
+      return NextResponse.json(
+        { error: "Invalid product ID" },
+        { status: 400 }
+      );
+    }
+
     const { prod_name, prod_description, prod_price, prod_image, categories } =
       await req.json();
 
@@ -38,10 +45,16 @@ export async function PUT(
 // Delete a product and all associated reviews and product_categories records
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const prod_id = parseInt(params.id);
+    const prod_id = parseInt((await params).id);
+    if (isNaN(prod_id)) {
+      return NextResponse.json(
+        { error: "Invalid product ID" },
+        { status: 400 }
+      );
+    }
 
     // Delete all product-category relationships
     await prisma.product_categories.deleteMany({
