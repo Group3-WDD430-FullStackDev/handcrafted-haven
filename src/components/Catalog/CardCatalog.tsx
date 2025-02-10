@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import { IProduct } from "@/typing/IProduct";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 
 export default function CardCatalog({
   title,
@@ -14,6 +15,7 @@ export default function CardCatalog({
   isUserOwner,
   currentPage,
   pageCount,
+  className = "",
 }: {
   title: string;
   cards: IProduct[];
@@ -22,9 +24,15 @@ export default function CardCatalog({
   isUserOwner: boolean;
   currentPage: number;
   pageCount: number;
+  className?: string;
 }) {
   return (
-    <div className="flex flex-col sm_md:grid sm_md:grid-cols-[auto,1fr] relative md:w-4/5 md:mx-auto mx-0 sm_md:mx-5 min-h-[600px]">
+    <div
+      className={clsx(
+        "flex flex-col sm_md:grid sm_md:grid-cols-[auto,1fr] relative min-h-[600px]",
+        className
+      )}
+    >
       <div className="flex items-center px-5 py-2">
         <h2 className="text-3xl flex text-left">
           {title}
