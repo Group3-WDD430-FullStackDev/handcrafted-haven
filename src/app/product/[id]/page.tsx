@@ -1,6 +1,7 @@
 import React from "react";
 import { getProductById } from "@/app/lib/products/queries";
 import ProductDetailCard from "@/components/Cards/ProductDetailsCard";
+import NotFoundPage from "@/components/Common/NotFound";
 
 // This is a placeholder component, made to test the handleClick function in the card component
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -8,7 +9,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const product = await getProductById(id);
 
   if (!product) {
-    return <div>Product not found.</div>;
+    return <NotFoundPage errorMessage="Product not found" />;
   }
 
   // Layout based on https://tailwindflex.com/@dika99/product-details-page

@@ -8,6 +8,7 @@ import CardCatalog from "@/components/Catalog/CardCatalog";
 import { fetchSellerData } from "@/app/lib/sellers/queries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
+import NotFoundPage from "@/components/Common/NotFound";
 
 export default async function Dashboard(props: {
   params: Promise<{
@@ -25,8 +26,8 @@ export default async function Dashboard(props: {
   const searchParams = await props.searchParams;
   const sellerId = (await props.params).sellerId;
   const sellerData = await fetchSellerData(+sellerId);
-  if (!sellerData) {
-    return <div>Invalid Seller Id</div>;
+  if (!sellerData || sellerData.user_is_seller === false) {
+    return <NotFoundPage errorMessage="Seller not found." />;
   }
   const isUserOwner = sellerId === String(loggedInUser);
   const currentPage = +(searchParams?.page || 1);

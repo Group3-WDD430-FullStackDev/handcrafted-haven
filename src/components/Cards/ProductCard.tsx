@@ -26,6 +26,12 @@ const ProductCard: React.FC<IProductCard> = ({
   const handleClick = () => {
     router.push(`/product/${prod_id}`);
   };
+  const imageUrl =
+    prod_image && prod_image.startsWith("http")
+      ? prod_image
+      : prod_image
+        ? `/products/${prod_image}`
+        : "/products/default-image.jpg";
 
   const handlePencilClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent click event from bubbling up to the parent div
@@ -39,7 +45,7 @@ const ProductCard: React.FC<IProductCard> = ({
       {/* Product Image */}
       <div className="w-80 h-80 relative">
         <img
-          src={prod_image || undefined}
+          src={imageUrl || undefined}
           alt={`Image of ${prod_name}`}
           className="absolute inset-0 w-full h-full object-cover group-hover:opacity-75"
         />

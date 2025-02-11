@@ -26,14 +26,21 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
     ? reviewSummary.totalRatings / reviewSummary.totalReviews
     : 0;
 
+  const imageUrl =
+    product.prod_image && product.prod_image.startsWith("http")
+      ? product.prod_image
+      : product.prod_image
+        ? `/products/${product.prod_image}`
+        : "/products/default-image.jpg";
+
   return (
     <div className="container mx-auto px-2 py-6 flex flex-col md:flex-row gap-3">
       {/* Product Image */}
       <div className="md:w-1/2 flex justify-center items-start">
-        {product.prod_image && (
+        {imageUrl && (
           <div className="relative w-full h-[500px] max-h-[100vh]">
             <Image
-              src={product.prod_image}
+              src={imageUrl}
               alt="product Image"
               layout="fill"
               objectFit="contain"

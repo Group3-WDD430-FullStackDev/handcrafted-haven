@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { categories } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import NotFoundPage from "../Common/NotFound";
 
 interface FormProps {
   categories: categories[];
@@ -25,7 +26,7 @@ export default function Form({ categories }: FormProps) {
   const user_id = session?.user?.id;
 
   if (!user_id) {
-    notFound();
+    return <NotFoundPage errorMessage="Unauthorized access" />;
   }
 
   // Handle input changes

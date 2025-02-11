@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +10,21 @@ import UserProfilePic from "../Users/UserProfilePic";
 // import SearchBar from "../SearchBar";
 
 export default function Header() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const becomeSeller = async () => {
+    const res = await fetch("/api/users/become-seller", { method: "PATCH" });
+
+    if (res.ok) {
+      await update();
+      router.push(`/dashboard/${session?.user?.id}`);
+    } else {
+      console.error("Failed to update user status to seller");
+    }
+  };
 
   return (
     <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
@@ -117,12 +130,12 @@ export default function Header() {
                           Seller Dashboard
                         </Link>
                       ) : (
-                        <Link
-                          href="/seller/create"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
+                        <button
+                          onClick={becomeSeller}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                         >
                           Become Seller
-                        </Link>
+                        </button>
                       )}
                     </li>
                     <li>
