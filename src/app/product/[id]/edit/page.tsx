@@ -1,6 +1,7 @@
 import EditForm from "@/components/Products/edit-form";
 import { getProductById } from "@/app/lib/products/queries";
 import { fetchProductCategories } from "@/app/lib/products/queries";
+import NotFoundPage from "@/components/Common/NotFound";
 
 const EditProductPage = async ({
   params,
@@ -13,7 +14,7 @@ const EditProductPage = async ({
     const product = await getProductById(id);
 
     if (!product) {
-      return <div>Product not found.</div>;
+      return <NotFoundPage errorMessage="Product not found" />;
     }
 
     // Fetch categories
@@ -27,7 +28,7 @@ const EditProductPage = async ({
     );
   } catch (error) {
     console.error(error);
-    return <div>Failed to load product details.</div>;
+    return <NotFoundPage errorMessage="Failed to load product details" />;
   }
 };
 

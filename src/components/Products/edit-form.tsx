@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { categories } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { IProductDetailCard } from "@/typing/ICards";
+import NotFoundPage from "../Common/NotFound";
 
 interface FormProps {
   categories: categories[];
@@ -15,10 +16,6 @@ export default function EditForm({ categories, product }: FormProps) {
   const { data: session } = useSession();
   const router = useRouter();
   const user_id = session?.user?.id;
-
-  if (!user_id) {
-    notFound();
-  }
 
   const [formData, setFormData] = useState({
     prod_name: product.prod_name,
@@ -32,6 +29,10 @@ export default function EditForm({ categories, product }: FormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] =
     useState(false);
+
+  if (user_id !== product.user_id) {
+    return <NotFoundPage errorMessage="Unauthorized access" />;
+  }
 
   // Handle input changes
   const handleChange = (
@@ -227,7 +228,7 @@ export default function EditForm({ categories, product }: FormProps) {
         </div>
       )}
 
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
         <button
           type="button"
           onClick={router.back}
