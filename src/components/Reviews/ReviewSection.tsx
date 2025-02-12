@@ -11,7 +11,7 @@ const ReviewSection = ({
   review: IReviewWithUser;
   isEditable: boolean;
   isNew: boolean;
-  onReviewChange: () => void
+  onReviewChange: () => void;
 }) => (
   <div key={review.review_id} className="p-4 border-b">
     <ReviewBar

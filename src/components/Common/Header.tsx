@@ -17,8 +17,8 @@ export default function Header() {
 
   const becomeSeller = async () => {
     const res = await fetch("/api/users/become-seller", { method: "PATCH" });
-    setIsProfileOpen(false)
-    
+    setIsProfileOpen(false);
+
     if (res.ok) {
       await update();
       router.push(`/dashboard/${session?.user?.id}`);
