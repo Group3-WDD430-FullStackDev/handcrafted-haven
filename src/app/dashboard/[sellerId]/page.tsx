@@ -53,6 +53,7 @@ export default async function Dashboard(props: {
         isUserOwner={isUserOwner}
         currentPage={currentPage}
         pageCount={pageCount}
+        className="m-2"
       />
     </div>
   );
