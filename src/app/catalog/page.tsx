@@ -38,7 +38,7 @@ export default async function Dashboard(props: {
       isUserOwner={false}
       currentPage={currentPage}
       pageCount={pageCount}
-      className="md:w-4/5 md:mx-auto mx-0 sm_md:mx-5"
+      className="p-3 md:mx-auto mx-0 sm_md:mx-5"
     />
   );
 }

@@ -249,7 +249,7 @@ export default function EditForm({ categories, product }: FormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md"
+          className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black py-2 px-4 bg-handcraftedBlue-700 hover:bg-handcraftedBlue-500 rounded"
         >
           {loading ? "Updating..." : "Update Product"}
         </button>
