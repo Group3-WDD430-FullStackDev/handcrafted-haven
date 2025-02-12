@@ -1,3 +1,5 @@
+import { IReviewWithUser } from "./IReview";
+
 export type IUserCard = {
   user_id: number;
   displayName: string;
@@ -17,19 +19,6 @@ export type IProductDetailCard = IProductCard & {
   prod_description: string | null;
   prod_seller_id: number | null;
   prod_seller_image: string | null;
-  prod_reviews: IReview[];
+  prod_reviews: IReviewWithUser[];
   prod_categories: number[]; // array of category ids
-};
-
-export type IProductCardWithUserId = IProductCard & {
-  user_id: number;
-};
-
-export type IReview = {
-  id: number;
-  comment: string | null;
-  author: string;
-  author_image: string | null;
-  rating: number;
-  date: Date | null;
 };

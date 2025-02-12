@@ -29,12 +29,14 @@ export async function getProductById(
 
   // Map the reviews to match the IProductDetailCard structure
   const mappedReviews = product.reviews.map((review) => ({
-    id: review.review_id,
-    comment: review.review_text || "",
-    author: review.users.displayName,
-    author_image: review.users.image || null,
-    rating: review.review_rating,
-    date: review.review_date,
+    review_id: review.review_id,
+    user_id: review.user_id,
+    prod_id: review.prod_id,
+    review_rating: review.review_rating,
+    review_text: review.review_text,
+    review_date: review.review_date,
+    author_name: review.users.displayName,
+    author_image: review.users.image,
   }));
 
   const mappedCategories = product.product_categories.map(

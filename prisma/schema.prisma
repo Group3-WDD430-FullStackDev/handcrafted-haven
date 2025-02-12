@@ -44,22 +44,19 @@ model reviews {
   review_date   DateTime? @default(dbgenerated("CURRENT_DATE")) @db.Date
   products      products  @relation(fields: [prod_id], references: [prod_id], onDelete: NoAction, onUpdate: NoAction)
   users         users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, prod_id], map: "user_id_prod_id")
 }
 
 model users {
   user_id        Int        @id @default(autoincrement())
-  googleId       String     @unique
-  email          String     @unique
-  displayName    String
-  image          String
-  createdAt      DateTime   @default(now())
   user_bio       String?
-  user_is_seller Boolean   @default(false)
-  // user_name      String     @db.VarChar(255)
-  // user_email     String     @unique @db.VarChar(255)
-  // user_password  String     @db.VarChar(255)
-  // user_image     String?    @db.VarChar(255)
-  
+  user_is_seller Boolean?   @default(false)
+  createdAt      DateTime   @default(now())
+  displayName    String
+  email          String     @unique
+  googleId       String     @unique
+  image          String?
   products       products[]
   reviews        reviews[]
 }
