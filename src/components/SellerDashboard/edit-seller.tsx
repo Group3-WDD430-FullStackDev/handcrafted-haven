@@ -171,7 +171,7 @@ export default function EditSellerForm({
         </div>
       )}
 
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
         <button
           type="button"
           onClick={() => router.back()}
