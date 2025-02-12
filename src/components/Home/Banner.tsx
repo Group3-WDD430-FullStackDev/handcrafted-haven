@@ -66,12 +66,12 @@ export default function Banner({
           </h3>
           <div className="w-full relative flex flex-row justify-center gap-9 mb-9">
             <Link href="/catalog">
-              <button className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black font-bold py-2 px-4 bg-handcraftedBlue-700 hover:bg-handcraftedBlue-500 rounded">
+              <button className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black font-bold py-2 px-4 rounded">
                 View Catalog
               </button>
             </Link>
             <Link href="/sellers">
-              <button className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black font-bold py-2 px-4 bg-handcraftedBlue-700 hover:bg-handcraftedBlue-500 rounded">
+              <button className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black font-bold py-2 px-4 rounded">
                 View Sellers
               </button>
             </Link>
