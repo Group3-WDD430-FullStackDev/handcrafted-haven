@@ -15,7 +15,13 @@ const SellerCard: React.FC<IUserCard> = ({
   const handleClick = () => {
     router.push(`/dashboard/${user_id}`);
   };
-  const imageUrl = image.startsWith("http") ? image : `/users/${image}`;
+  const imageUrl =
+    image && image.startsWith("http")
+      ? image
+      : image
+        ? `/users/${image}`
+        : "/users/default-image.jpg";
+
   const truncatedBio =
     user_bio.length > 25 ? `${user_bio.slice(0, 25)}...` : user_bio;
 
