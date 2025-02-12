@@ -28,7 +28,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-white border-gray-200 dark:bg-gray-900">
+    <header className="w-full bg-white border-gray-200 dark:bg-gray-900 sticky top-0 z-50">
       <nav className="max-w-6xl mx-auto bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           {/* Mobile Menu Button */}
@@ -171,6 +171,7 @@ export default function Header() {
           </div>
         </div>
       </nav>
+      <hr className="mx-4 border-gray-600" />
     </header>
   );
 }

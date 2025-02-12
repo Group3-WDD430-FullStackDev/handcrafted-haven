@@ -43,7 +43,7 @@ export default async function Featured({
 
   // Return the rendered component
   return (
-    <div className="flex flex-col items-center justify-center bg-[#eee5e9] py-2 pb-5 px-1">
+    <div className="flex flex-col items-center justify-center bg-[#eee5e9] py-2 pb-5 px-3">
       <h3 className="text-2xl pb-2">{featuredTitle}</h3>
       <div className="grid grid-cols-1 sm:flex flex-row items-center justify-evenly w-full gap-4">
         {featuredCards}

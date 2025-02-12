@@ -43,11 +43,11 @@ const ProductCard: React.FC<IProductCard> = ({
       onClick={handleClick}
     >
       {/* Product Image */}
-      <div className="w-80 h-80 relative">
+      <div className="w-80 h-80 relative self-center">
         <img
           src={imageUrl || undefined}
           alt={`Image of ${prod_name}`}
-          className="absolute inset-0 w-full h-full object-cover group-hover:opacity-75"
+          className="inset-0 w-full h-full object-cover group-hover:opacity-75"
         />
 
         {/* Pencil Icon for Edit Button */}

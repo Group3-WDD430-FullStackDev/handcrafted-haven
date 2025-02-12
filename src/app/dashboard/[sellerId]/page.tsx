@@ -44,7 +44,7 @@ export default async function Dashboard(props: {
   ]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col p-3">
       <SellerProfile sellerData={sellerData} />
       <CardCatalog
         title={`${sellerData.displayName}'s Products`}

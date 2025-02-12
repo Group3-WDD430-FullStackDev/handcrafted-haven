@@ -57,7 +57,7 @@ export default function Sidebar({
   const ShowMask = (
     <div
       className={clsx(
-        "w-full h-full backdrop-blur-md overflow-hidden transition-all duration-300",
+        "w-full h-full backdrop-blur-md overflow-hidden transition-all duration-300 row-span-4",
         className,
         {
           "max-w-[0] sm_md:max-w-[100%] bg-black/0": !isOpen,
@@ -69,7 +69,7 @@ export default function Sidebar({
         console.log("HI");
       }}
     >
-      <div className="flex flex-col h-full rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">
+      <div className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">
         <span className="w-full text-xl bg-handcraftedSlate-100 text-center">
           Filters
         </span>

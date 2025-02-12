@@ -31,7 +31,7 @@ const SellerCard: React.FC<IUserCard> = ({
       onClick={handleClick}
     >
       {/* Fixed size for the card */}
-      <div className="w-80 h-80 relative">
+      <div className="w-80 h-80 relative self-center">
         <img
           src={imageUrl}
           alt={`Image of seller ${displayName}`}

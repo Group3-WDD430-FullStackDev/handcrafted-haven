@@ -20,7 +20,6 @@ export default function RootLayout({
         {/* placeholder code */}
         <Providers>
           <Header />
-          <hr className="mx-4 border-gray-600" />
           {children}
           <Footer />
         </Providers>

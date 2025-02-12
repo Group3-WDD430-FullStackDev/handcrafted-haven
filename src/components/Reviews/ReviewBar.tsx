@@ -201,7 +201,7 @@ export default function ReviewBar({
           />
           <button
             onClick={handleSave}
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+            className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black py-2 px-4 bg-handcraftedBlue-700 hover:bg-handcraftedBlue-500 rounded"
           >
             {buttonText}
           </button>
