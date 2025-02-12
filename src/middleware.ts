@@ -7,5 +7,5 @@ export default async function middleware() {
 }
 
 export const config = {
-  matcher: [], // paths to run middleware on
+  // matcher: [], // paths to run middleware on
 };

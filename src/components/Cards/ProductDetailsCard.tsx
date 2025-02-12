@@ -15,11 +15,6 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
   // Local state for reviews
   const [reviews, setReviews] = useState<IReviewWithUser[]>([]);
   const [loadingReviews, setLoadingReviews] = useState<boolean>(true);
-  // const [reviewUpdated, setReviewUpdated] = useState<number>(0);
-
-  // useEffect(() => {
-  //   setReviews(product.prod_reviews);
-  // }, [product.prod_reviews]);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -78,6 +73,13 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
     ? reviewSummary.totalRatings / reviewSummary.totalReviews
     : 0;
 
+  const imageUrl =
+    product.prod_image && product.prod_image.startsWith("http")
+      ? product.prod_image
+      : product.prod_image
+        ? `/products/${product.prod_image}`
+        : "/products/default-image.jpg";
+
   const handleReviewChange = async () => {
     setLoadingReviews(true);
 
@@ -100,10 +102,10 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
     <div className="container mx-auto px-2 py-6 flex flex-col md:flex-row gap-3">
       {/* Product Image */}
       <div className="md:w-1/2 flex justify-center items-start">
-        {product.prod_image && (
+        {imageUrl && (
           <div className="relative w-full h-[500px] max-h-[100vh]">
             <Image
-              src={`/products/${product.prod_image}`}
+              src={imageUrl}
               alt="product Image"
               layout="fill"
               objectFit="contain"
