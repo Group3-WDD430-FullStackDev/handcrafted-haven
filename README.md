@@ -14,7 +14,7 @@ Learn more by reading the [project description](https://byui-cse.github.io/wdd43
 
 [![Figma](https://img.shields.io/badge/Kanban-Project_Manager-A55EFF.svg?&style=for-the-badge&logo=twitter)](https://github.com/orgs/Group3-WDD430-FullStackDev/projects/4)
 
-[![Figma](https://img.shields.io/badge/Vercel-Dashboard-12D187.svg?&style=for-the-badge&logo=twitter)]()
+[![Figma](https://img.shields.io/badge/Vercel-Dashboard-12D187.svg?&style=for-the-badge&logo=twitter)](https://handcrafted-haven-xi.vercel.app)
 
 ## Getting Started
 #### Install dependencies
