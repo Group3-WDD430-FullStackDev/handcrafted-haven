@@ -10,11 +10,11 @@ export default function SellerProfile({ sellerData }: { sellerData: users }) {
   const { user_id, displayName, user_bio, image } = sellerData;
 
   const profileImage =
-  image && image.startsWith("http")
-    ? image
-    : image
-      ? `/users/${image}`
-      : "/users/default-image.jpg";
+    image && image.startsWith("http")
+      ? image
+      : image
+        ? `/users/${image}`
+        : "/users/default-image.jpg";
 
   // check if the seller profile matches the logged in user
   const { data: session } = useSession();

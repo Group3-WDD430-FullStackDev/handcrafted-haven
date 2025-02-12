@@ -35,17 +35,19 @@ export default function CardCatalog({
     >
       <div className="flex flex-col sm:flex-row items-start px-5 py-2 w-full">
         <h2 className="text-3xl flex text-left">{title}</h2>
-          {isUserOwner && (
-            <Link href={"/product/create"} className="text-lg text-blue-500 mt-2 sm:mt-0 sm:ml-2">
-              <button
-                className="bg-handcraftedBlue-300 text-white p-2 rounded-md"
-                aria-label="Add New Product"
-              >
-                <PlusIcon width={20} height={18} className="fill-black" />
-              </button>
-            </Link>
-          )}
-        
+        {isUserOwner && (
+          <Link
+            href={"/product/create"}
+            className="text-lg text-blue-500 mt-2 sm:mt-0 sm:ml-2"
+          >
+            <button
+              className="bg-handcraftedBlue-300 text-white p-2 rounded-md"
+              aria-label="Add New Product"
+            >
+              <PlusIcon width={20} height={18} className="fill-black" />
+            </button>
+          </Link>
+        )}
       </div>
 
       <Sidebar

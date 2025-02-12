@@ -66,7 +66,6 @@ export default function ReviewBar({
 
       setButtonText("Update Review");
       onReviewChange();
-      
     } catch (error) {
       console.error("Error saving review:", error);
       setButtonText(originalText);
@@ -74,7 +73,7 @@ export default function ReviewBar({
   };
 
   const authorImg =
-  reviewData.author_image && reviewData.author_image.startsWith("http")
+    reviewData.author_image && reviewData.author_image.startsWith("http")
       ? reviewData.author_image
       : reviewData.author_image
         ? `/users/${reviewData.author_image}`
