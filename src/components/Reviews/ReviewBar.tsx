@@ -73,6 +73,13 @@ export default function ReviewBar({
     }
   };
 
+  const authorImg =
+  reviewData.author_image && reviewData.author_image.startsWith("http")
+      ? reviewData.author_image
+      : reviewData.author_image
+        ? `/users/${reviewData.author_image}`
+        : "/users/default-image.jpg";
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex justify-between items-center space-x-3">
@@ -80,7 +87,7 @@ export default function ReviewBar({
           <div className="flex flex-row justify-start space-x-2">
             <UserProfilePic
               user={{
-                image: reviewData.author_image,
+                image: authorImg,
                 displayName: reviewData.author_name,
               }}
             />

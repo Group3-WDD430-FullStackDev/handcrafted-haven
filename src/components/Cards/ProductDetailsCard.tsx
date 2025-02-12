@@ -80,7 +80,14 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
         ? `/products/${product.prod_image}`
         : "/products/default-image.jpg";
 
-  const handleReviewChange = async () => {
+    const sellerImg =
+    product.prod_seller_image && product.prod_seller_image.startsWith("http")
+      ? product.prod_seller_image
+      : product.prod_seller_image
+        ? `/users/${product.prod_seller_image}`
+        : "/users/default-image.jpg";
+
+        const handleReviewChange = async () => {
     setLoadingReviews(true);
 
     try {
@@ -144,11 +151,7 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
           </div>
           {product.prod_seller_image && (
             <Image
-              src={
-                product.prod_seller_image.startsWith("http")
-                  ? product.prod_seller_image
-                  : `/users/${product.prod_seller_image}`
-              }
+              src={sellerImg}
               alt="Sellers Image"
               width={100}
               height={100}
