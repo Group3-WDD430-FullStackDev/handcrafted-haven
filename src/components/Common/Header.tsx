@@ -17,7 +17,8 @@ export default function Header() {
 
   const becomeSeller = async () => {
     const res = await fetch("/api/users/become-seller", { method: "PATCH" });
-
+    setIsProfileOpen(false)
+    
     if (res.ok) {
       await update();
       router.push(`/dashboard/${session?.user?.id}`);
@@ -125,6 +126,7 @@ export default function Header() {
                       {session.user?.user_is_seller ? (
                         <Link
                           href={`/dashboard/${session.user.id}`}
+                          onClick={() => setIsProfileOpen(false)}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                         >
                           Seller Dashboard
