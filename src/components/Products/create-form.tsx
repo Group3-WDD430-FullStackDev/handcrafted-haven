@@ -191,7 +191,7 @@ export default function Form({ categories }: FormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black py-2 px-4 bg-handcraftedBlue-700 hover:bg-handcraftedBlue-500 rounded"
+          className="bg-handcraftedBlue-400 hover:bg-handcraftedBlue-200 text-black py-2 px-4 rounded"
         >
           {loading ? "Adding..." : "Add Product"}
         </button>
