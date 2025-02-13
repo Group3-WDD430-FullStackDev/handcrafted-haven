@@ -127,10 +127,14 @@ export default function EditForm({ categories, product }: FormProps) {
       {error && <p className="text-red-500">{error}</p>}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="prod_name"
+        >
           Product Name *
         </label>
         <input
+          id="prod_name"
           type="text"
           name="prod_name"
           value={formData.prod_name}
@@ -141,10 +145,14 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="prod_description"
+        >
           Description
         </label>
         <textarea
+          id="prod_description"
           name="prod_description"
           value={formData.prod_description}
           onChange={handleChange}
@@ -153,10 +161,14 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="prod_price"
+        >
           Price *
         </label>
         <input
+          id="prod_price"
           type="number"
           name="prod_price"
           value={formData.prod_price}
@@ -167,10 +179,14 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="prod_image"
+        >
           Image URL
         </label>
         <input
+          id="prod_image"
           type="text"
           name="prod_image"
           value={formData.prod_image}

@@ -110,10 +110,14 @@ export default function EditSellerForm({
       {error && <p className="text-red-500">{error}</p>}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="displayName"
+        >
           Display Name *
         </label>
         <input
+          id="displayName"
           type="text"
           name="displayName"
           value={formData.displayName}
@@ -124,8 +128,14 @@ export default function EditSellerForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Bio</label>
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="user_bio"
+        >
+          Bio
+        </label>
         <textarea
+          id="user_bio"
           name="user_bio"
           value={formData.user_bio}
           onChange={handleChange}
@@ -134,10 +144,14 @@ export default function EditSellerForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          className="block text-sm font-medium text-gray-700"
+          htmlFor="image"
+        >
           Image URL
         </label>
         <input
+          id="image"
           type="text"
           name="image"
           value={formData.image}
