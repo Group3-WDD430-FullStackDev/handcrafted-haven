@@ -35,6 +35,12 @@ export default function Sidebar({
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
+  // Function to reset all filters
+  const resetFilters = () => {
+    const params = new URLSearchParams();
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
   const categoryOptions = categories.map((x) => ({
     id: x.cat_id,
     name: x.cat_name,
@@ -85,7 +91,7 @@ export default function Sidebar({
       )}
       onClick={() => setIsOpen(false)}
     >
-      <div 
+      <div
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5"
       >
@@ -102,6 +108,15 @@ export default function Sidebar({
 
           {/* Price Range Filter */}
           <PriceFilter minPrice={minPrice} maxPrice={maxPrice} />
+
+          {/* Reset Filters Button */}
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="mt-4 p-2 bg-gray-200 text-black rounded-md hover:bg-gray-300"
+          >
+            Reset Filters
+          </button>
         </div>
         <div className="h-full w-[3px] bg-[#eee5e9]" />
       </div>
