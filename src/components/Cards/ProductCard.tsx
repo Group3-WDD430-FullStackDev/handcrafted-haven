@@ -64,7 +64,7 @@ const ProductCard: React.FC<IProductCard> = ({
 
       {/* Product Information */}
       <div className="p-4 flex flex-col justify-between h-[80px]">
-        <h3 className="mt-1 text-lg font-medium text-gray-900">{`$${prod_price}`}</h3>
+        <h3 className="mt-1 text-lg font-medium text-gray-900">{`$${prod_price.toFixed(2)}`}</h3>
         <p className="mt-1 text-sm text-gray-700">{`${prod_name}`}</p>
       </div>
     </div>

@@ -146,7 +146,7 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
               onReviewChange={handleReviewChange}
             />
             <p className="text-2xl font-bold mr-2">
-              ${product.prod_price.toString()}
+              ${product.prod_price.toFixed(2)}
             </p>
           </div>
           {product.prod_seller_image && (
