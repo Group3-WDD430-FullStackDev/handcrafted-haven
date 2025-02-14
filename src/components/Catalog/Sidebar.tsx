@@ -4,17 +4,44 @@ import { JSX, useState } from "react";
 import FilterSection from "./FilterSection";
 import clsx from "clsx";
 import { categories, users } from "@prisma/client";
+import { useSearchParams, useRouter } from "next/navigation";
 
 export default function Sidebar({
   className = "",
   categories,
   sellers = [],
+  minPrice,
+  maxPrice,
 }: {
   className?: string;
   categories: categories[];
   sellers: users[];
+  minPrice?: number;
+  maxPrice?: number;
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Function to update URL params
+  const updateFilters = (key: string, value: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  const categoryOptions = categories.map((x) => ({
+    id: x.cat_id,
+    name: x.cat_name,
+  }));
+  const sellerOptions = sellers.map((x) => ({
+    id: x.user_id,
+    name: x.displayName,
+  }));
 
   const ShowButton = (
     <button
@@ -45,15 +72,6 @@ export default function Sidebar({
     </button>
   );
 
-  const categoryOptions = categories.map((x) => ({
-    id: x.cat_id,
-    name: x.cat_name,
-  }));
-  const sellerOptions = sellers.map((x) => ({
-    id: x.user_id,
-    name: x.displayName,
-  }));
-
   const ShowMask = (
     <div
       className={clsx(
@@ -64,24 +82,43 @@ export default function Sidebar({
           "max-w-[100%] bg-slate-300/20": isOpen,
         }
       )}
-      onClick={() => {
-        setIsOpen(false);
-        console.log("HI");
-      }}
+      onClick={() => setIsOpen(false)}
     >
       <div 
-      onClick={(e) => e.stopPropagation()}
-      className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">
+        onClick={(e) => e.stopPropagation()}
+        className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5"
+      >
         <span className="w-full text-xl bg-handcraftedSlate-100 text-center">
           Filters
         </span>
-        <div className="flex flex-col sticky gap-2 ">
+        <div className="flex flex-col sticky gap-2 p-3">
           {sellers.length > 0 && (
             <FilterSection title="Seller" options={sellerOptions} />
           )}
           {categories.length > 0 && (
             <FilterSection title="Category" options={categoryOptions} />
           )}
+
+          {/* Price Range Filter */}
+          <div className="flex flex-col gap-2 text-black">
+            <span className="font-semibold text-lg">Price Range</span>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                placeholder="Min"
+                className="border p-1 rounded w-1/2"
+                defaultValue={minPrice || ""}
+                onBlur={(e) => updateFilters("minPrice", e.target.value || null)}
+              />
+              <input
+                type="number"
+                placeholder="Max"
+                className="border p-1 rounded w-1/2"
+                defaultValue={maxPrice || ""}
+                onBlur={(e) => updateFilters("maxPrice", e.target.value || null)}
+              />
+            </div>
+          </div>
         </div>
         <div className="h-full w-[3px] bg-[#eee5e9]" />
       </div>
