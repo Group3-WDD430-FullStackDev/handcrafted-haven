@@ -5,6 +5,7 @@ import FilterSection from "./FilterSection";
 import clsx from "clsx";
 import { categories, users } from "@prisma/client";
 import { useSearchParams, useRouter } from "next/navigation";
+import PriceFilter from "./PriceFilter";
 
 export default function Sidebar({
   className = "",
@@ -100,25 +101,7 @@ export default function Sidebar({
           )}
 
           {/* Price Range Filter */}
-          <div className="flex flex-col gap-2 text-black">
-            <span className="font-semibold text-lg">Price Range</span>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                placeholder="Min"
-                className="border p-1 rounded w-1/2"
-                defaultValue={minPrice || ""}
-                onBlur={(e) => updateFilters("minPrice", e.target.value || null)}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                className="border p-1 rounded w-1/2"
-                defaultValue={maxPrice || ""}
-                onBlur={(e) => updateFilters("maxPrice", e.target.value || null)}
-              />
-            </div>
-          </div>
+          <PriceFilter minPrice={minPrice} maxPrice={maxPrice} />
         </div>
         <div className="h-full w-[3px] bg-[#eee5e9]" />
       </div>
