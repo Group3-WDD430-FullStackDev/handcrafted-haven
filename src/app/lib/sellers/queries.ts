@@ -46,3 +46,58 @@ export async function fetchAllSellers(): Promise<users[]> {
   });
   return sellers;
 }
+
+const SELLERS_PER_PAGE = 30;
+
+/*
+ * Fetches the number of pages for the seller page
+ * @returns {Promise<number>} The number of pages
+ */
+export async function fetchSellerPages(): Promise<number> {
+  // query the database for the sellers
+  const data = await prisma.users.findMany({
+    where: {
+      user_is_seller: true,
+    },
+  });
+
+  // return the number of pages
+  return Math.ceil(data.length / SELLERS_PER_PAGE);
+}
+
+/*
+ * Fetches the products for the product catalog
+ * @param {string} page - The current page number
+ * @param {string} filters - The filters to apply to the query
+ * @returns {Promise<IProduct[]>} The products
+ */
+export async function fetchSellers(page: number): Promise<IUserCard[]> {
+  // offfset is the number of sellers to skip
+  const offset = page * SELLERS_PER_PAGE;
+
+  // query the database for the sellers
+  const rawdata = await prisma.users.findMany({
+    where: {
+      user_is_seller: true,
+    },
+    select: {
+      user_id: true,
+      displayName: true,
+      image: true,
+      user_bio: true,
+    },
+    skip: offset,
+    take: SELLERS_PER_PAGE,
+  });
+
+  const data = rawdata.map((x) => ({
+    ...x,
+
+    // Handle potential null values
+    image: x.image ?? "",
+    user_bio: x.user_bio ?? "",
+  }));
+
+  // return the sellers
+  return data;
+}
