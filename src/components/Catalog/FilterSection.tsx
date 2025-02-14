@@ -1,5 +1,7 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { JSX } from "react";
 
 export default function FilterSection({
@@ -16,6 +18,8 @@ export default function FilterSection({
   const filterString = searchParams.get(title) || "";
   const filters = filterString ? filterString.split(",") : [];
 
+  const [isOpen, setIsOpen] = useState(false);
+
   function setURL(value: string) {
     const url = new URL(window.location.href);
     if (filters.includes(value)) {
@@ -27,29 +31,48 @@ export default function FilterSection({
     url.searchParams.set(title, newFilters);
     window.location.href = url.toString();
   }
+
   return (
-    <div className="flex flex-col p-2">
-      <span className="font-bold">{title}</span>
-      {options.map((option) => {
-        const option_id = option.id.toString();
-        const filter_id = `${option.id}-${title}`;
-        return (
-          <label
-            onClick={() => setURL(option_id)}
-            htmlFor={filter_id}
-            key={filter_id}
-            className="flex flex-row items-center justify-start gap-2 p-1"
-          >
-            <input
-              type="checkbox"
-              name={filter_id}
-              id={filter_id}
-              defaultChecked={filters.includes(option_id)}
-            />
-            {option.name}
-          </label>
-        );
-      })}
+    <div className="border border-gray-300 rounded-lg overflow-hidden text-black">
+      <button
+        type="button"
+        className="w-full flex items-center justify-between p-3 bg-gray-100 hover:bg-gray-200"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className="font-bold">{title}</span>
+        <svg
+          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+        >
+          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="p-2 border-t border-gray-300">
+          {options.map((option) => {
+            const option_id = option.id.toString();
+            const filter_id = `${option.id}-${title}`;
+            return (
+              <label
+                onClick={() => setURL(option_id)}
+                htmlFor={filter_id}
+                key={filter_id}
+                className="flex items-center gap-2 p-1 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  name={filter_id}
+                  id={filter_id}
+                  defaultChecked={filters.includes(option_id)}
+                />
+                {option.name}
+              </label>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -69,7 +69,9 @@ export default function Sidebar({
         console.log("HI");
       }}
     >
-      <div className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">
+      <div 
+      onClick={(e) => e.stopPropagation()}
+      className="flex flex-col rounded-md bg-white border-l-2 border-t-2 sm:border-2 border-handcraftedSlate-400 absolute sm_md:relative right-0 sm_md:mx-0 w-[200px] my-5">
         <span className="w-full text-xl bg-handcraftedSlate-100 text-center">
           Filters
         </span>
