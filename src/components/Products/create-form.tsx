@@ -21,9 +21,13 @@ export default function Form({ categories }: FormProps) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const user_id = session?.user?.id;
+
+  if (status === "loading") {
+    return <p>Loading...</p>; // Show a placeholder instead of unauthorized page
+  }
 
   if (!user_id) {
     return <NotFoundPage errorMessage="Unauthorized access" />;
@@ -101,11 +105,12 @@ export default function Form({ categories }: FormProps) {
       {error && <p className="text-red-500">{error}</p>}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_name" className="block text-sm font-medium text-gray-700">
           Product Name *
         </label>
         <input
           type="text"
+          id="prod_name"
           name="prod_name"
           value={formData.prod_name}
           onChange={handleChange}
@@ -115,10 +120,11 @@ export default function Form({ categories }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_description" className="block text-sm font-medium text-gray-700">
           Description
         </label>
         <textarea
+          id="prod_description"
           name="prod_description"
           value={formData.prod_description}
           onChange={handleChange}
@@ -127,11 +133,12 @@ export default function Form({ categories }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_price" className="block text-sm font-medium text-gray-700">
           Price *
         </label>
         <input
           type="number"
+          id="prod_price"
           name="prod_price"
           value={formData.prod_price}
           onChange={handleChange}
@@ -141,11 +148,12 @@ export default function Form({ categories }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_image" className="block text-sm font-medium text-gray-700">
           Image URL
         </label>
         <input
           type="text"
+          id="prod_image"
           name="prod_image"
           value={formData.prod_image}
           onChange={handleChange}
@@ -183,7 +191,7 @@ export default function Form({ categories }: FormProps) {
       <div className="flex justify-between">
         <button
           type="button"
-          onClick={router.back}
+          onClick={() => router.push(`/dashboard/${user_id}`)}
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
         >
           Cancel

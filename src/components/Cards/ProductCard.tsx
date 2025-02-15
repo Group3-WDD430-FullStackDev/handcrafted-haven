@@ -55,7 +55,9 @@ const ProductCard: React.FC<IProductCard> = ({
           <Link
             href={`/product/${prod_id}/edit`}
             className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg hover:bg-gray-100"
-            onClick={handlePencilClick}
+            onClick={handlePencilClick
+            }
+            aria-label="Edit Product"
           >
             <PencilIcon width={20} height={20} className="text-gray-700" />
           </Link>
@@ -64,7 +66,7 @@ const ProductCard: React.FC<IProductCard> = ({
 
       {/* Product Information */}
       <div className="p-4 flex flex-col justify-between h-[80px]">
-        <h3 className="mt-1 text-lg font-medium text-gray-900">{`$${prod_price}`}</h3>
+        <h3 className="mt-1 text-lg font-medium text-gray-900">{`$${prod_price.toFixed(2)}`}</h3>
         <p className="mt-1 text-sm text-gray-700">{`${prod_name}`}</p>
       </div>
     </div>
