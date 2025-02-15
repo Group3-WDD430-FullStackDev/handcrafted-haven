@@ -21,9 +21,13 @@ export default function Form({ categories }: FormProps) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const user_id = session?.user?.id;
+
+  if (status === "loading") {
+    return <p>Loading...</p>; // Show a placeholder instead of unauthorized page
+  }
 
   if (!user_id) {
     return <NotFoundPage errorMessage="Unauthorized access" />;

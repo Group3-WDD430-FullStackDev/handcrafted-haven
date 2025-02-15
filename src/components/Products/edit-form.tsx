@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { categories } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IProductDetailCard } from "@/typing/ICards";
-import NotFoundPage from "../Common/NotFound";
 
 interface FormProps {
   categories: categories[];
@@ -13,9 +11,7 @@ interface FormProps {
 }
 
 export default function EditForm({ categories, product }: FormProps) {
-  const { data: session } = useSession();
   const router = useRouter();
-  const user_id = session?.user?.id;
 
   const [formData, setFormData] = useState({
     prod_name: product.prod_name,
@@ -29,10 +25,6 @@ export default function EditForm({ categories, product }: FormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] =
     useState(false);
-
-  if (user_id !== product.user_id) {
-    return <NotFoundPage errorMessage="Unauthorized access" />;
-  }
 
   // Handle input changes
   const handleChange = (
@@ -72,7 +64,7 @@ export default function EditForm({ categories, product }: FormProps) {
           ...formData,
           prod_price: parseFloat(formData.prod_price),
           categories: formData.selectedCategories,
-          user_id,
+          user_id: product.user_id,
         }),
       });
 
@@ -104,7 +96,7 @@ export default function EditForm({ categories, product }: FormProps) {
         if (!response.ok) throw new Error("Failed to delete product");
 
         // Redirect back to seller dashboard after successful deletion
-        router.push(`/dashboard/${user_id}`);
+        router.push(`/dashboard/${product.user_id}`);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
