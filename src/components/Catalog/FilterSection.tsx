@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { JSX } from "react";
 
 export default function FilterSection({
@@ -19,6 +19,12 @@ export default function FilterSection({
   const filters = filterString ? filterString.split(",") : [];
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (filters.length > 0) {
+      setIsOpen(true);
+    }
+  }, [filters]);
 
   function setURL(value: string) {
     const url = new URL(window.location.href);
