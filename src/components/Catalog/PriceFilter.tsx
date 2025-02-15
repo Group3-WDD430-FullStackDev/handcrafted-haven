@@ -25,51 +25,37 @@ export default function PriceFilter({
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, key: string) => {
+    if (e.key === "Enter") {
+      updateFilters(key, (e.target as HTMLInputElement).value || null);
+    }
+  };
 
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden text-black">
-      <button
-        type="button"
-        className="w-full flex items-center justify-between p-3 bg-gray-100 hover:bg-gray-200"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className="w-full flex items-center justify-between p-3 bg-gray-100">
         <span className="font-bold">Price Range</span>
-        <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M9 5 5 1 1 5"
+      </div>
+      <div className="p-2 border-t border-gray-300">
+        <div className="flex gap-2">
+          <input
+            type="number"
+            placeholder="Min"
+            className="border p-1 rounded w-1/2"
+            defaultValue={minPrice || ""}
+            onBlur={(e) => updateFilters("minPrice", e.target.value || null)}
+            onKeyDown={(e) => handleKeyDown(e, "minPrice")}
           />
-        </svg>
-      </button>
-      {isOpen && (
-        <div className="p-2 border-t border-gray-300">
-          <div className="flex gap-2">
-            <input
-              type="number"
-              placeholder="Min"
-              className="border p-1 rounded w-1/2"
-              defaultValue={minPrice || ""}
-              onBlur={(e) => updateFilters("minPrice", e.target.value || null)}
-            />
-            <input
-              type="number"
-              placeholder="Max"
-              className="border p-1 rounded w-1/2"
-              defaultValue={maxPrice || ""}
-              onBlur={(e) => updateFilters("maxPrice", e.target.value || null)}
-            />
-          </div>
+          <input
+            type="number"
+            placeholder="Max"
+            className="border p-1 rounded w-1/2"
+            defaultValue={maxPrice || ""}
+            onBlur={(e) => updateFilters("maxPrice", e.target.value || null)}
+            onKeyDown={(e) => handleKeyDown(e, "maxPrice")}
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 }
