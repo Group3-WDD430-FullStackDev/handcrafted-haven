@@ -99,17 +99,16 @@ export default function Sidebar({
           Filters
         </span>
         <div className="flex flex-col sticky gap-2 p-3">
-          {sellers.length > 0 && (
-            <FilterSection title="Seller" options={sellerOptions} />
-          )}
-          {categories.length > 0 && (
-            <FilterSection title="Category" options={categoryOptions} />
-          )}
-
-          {/* Price Range Filter */}
           <PriceFilter minPrice={minPrice} maxPrice={maxPrice} />
 
-          {/* Reset Filters Button */}
+          {sellers.length > 0 && (
+            <FilterSection title="Seller" options={sellerOptions} />
+            )}
+
+          {categories.length > 0 && (
+            <FilterSection title="Category" options={categoryOptions} />
+            )}
+            
           <button
             type="button"
             onClick={resetFilters}
