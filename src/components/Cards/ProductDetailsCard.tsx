@@ -114,9 +114,10 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
             <Image
               src={imageUrl}
               alt="product Image"
-              layout="fill"
-              objectFit="contain"
-              objectPosition="top"
+              fill
+              priority
+              sizes="(max-width: 1000px"
+              className="object-contain object-top"
             />
           </div>
         )}
@@ -155,7 +156,7 @@ const ProductDetailCard: React.FC<{ product: IProductDetailCard }> = ({
               alt="Sellers Image"
               width={100}
               height={100}
-              className="w-20 h-20 rounded-full"
+              className="w-20 h-20 rounded-full object-cover"
             />
           )}
         </div>
