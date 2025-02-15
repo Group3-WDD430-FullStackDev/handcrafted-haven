@@ -34,7 +34,7 @@ export default function SellerProfile({ sellerData }: { sellerData: users }) {
         {user_bio || `${displayName} has not entered a bio.`}
       </p>
       {isUserOwner && (
-        <Link href={`/dashboard/${user_id}/edit`}>
+        <Link href={`/dashboard/${user_id}/edit`} aria-label="Edit Profile">
           <button
             type="button"
             className="absolute right-2 top-2 p-2 rounded-md flex flex-col items-center justify-center bg-handcraftedBlue-300"

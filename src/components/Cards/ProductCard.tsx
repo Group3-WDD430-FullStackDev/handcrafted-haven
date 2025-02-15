@@ -55,7 +55,9 @@ const ProductCard: React.FC<IProductCard> = ({
           <Link
             href={`/product/${prod_id}/edit`}
             className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg hover:bg-gray-100"
-            onClick={handlePencilClick}
+            onClick={handlePencilClick
+            }
+            aria-label="Edit Product"
           >
             <PencilIcon width={20} height={20} className="text-gray-700" />
           </Link>

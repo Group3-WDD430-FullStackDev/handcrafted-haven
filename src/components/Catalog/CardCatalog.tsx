@@ -39,6 +39,7 @@ export default function CardCatalog({
           <Link
             href={"/product/create"}
             className="text-lg text-blue-500 mt-2 sm:mt-0 sm:ml-2"
+            aria-label="Create New Product"
           >
             <button
               className="bg-handcraftedBlue-300 text-white p-2 rounded-md"
