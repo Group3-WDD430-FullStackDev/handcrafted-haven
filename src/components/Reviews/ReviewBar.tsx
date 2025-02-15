@@ -194,6 +194,7 @@ export default function ReviewBar({
       {isEditable ? (
         <div className="flex flex-col space-y-2 mt-3">
           <textarea
+            aria-label={isNew ? "Write your review here..." : "Edit your"}
             value={comment || ""}
             onChange={(e) => setComment(e.target.value)}
             className="w-full p-2 border rounded-md"

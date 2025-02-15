@@ -61,7 +61,7 @@ export default function Banner({
         {/* Action Buttons Bar */}
         <div className="grid grid-cols-[1fr_auto] absolute bottom-3 p-2 w-full max-w-[600px] left-1/2 transform -translate-x-1/2">
           {/* ACtion Buttons Bar Title - Hidden on smaller screens */}
-          <h3 className="col-span-2 text-center text-3xl text-white hidden sm:block pb-2">
+          <h3 className="col-span-2 text-center font-bold text-3xl text-white hidden drop-shadow-[2px_2px_0px_black] sm:block pb-6">
             Discover Amazing Products
           </h3>
           <div className="w-full relative flex flex-row justify-center gap-9 mb-9">

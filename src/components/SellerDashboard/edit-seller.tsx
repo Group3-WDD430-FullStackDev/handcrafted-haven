@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import NotFoundPage from "../Common/NotFound";
 
 export default function EditSellerForm({
   sellerId,
@@ -16,9 +15,9 @@ export default function EditSellerForm({
   bio: string | null;
   image: string | null;
 }) {
-  const { data: session, status, update } = useSession();
+
+  const { update } = useSession();
   const router = useRouter();
-  const user_id = session?.user?.id;
 
   const [formData, setFormData] = useState({
     user_bio: bio || "",
@@ -31,17 +30,13 @@ export default function EditSellerForm({
   const [isDeactivateConfirmationVisible, setDeactivateConfirmationVisible] =
     useState(false);
 
-  // Check if user is authorized before rendering
-  if (status === "loading") return <p>Loading...</p>; // Wait for session data
-  if (!user_id || user_id !== sellerId)
-    return <NotFoundPage errorMessage="Unauthorized access" />;
-
   // Handle input changes
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    },
+    []
+  );
 
   // Handle update form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,10 +44,8 @@ export default function EditSellerForm({
     setLoading(true);
     setError(null);
 
-    console.log(formData);
-
     try {
-      const response = await fetch(`/api/users/${user_id}`, {
+      const response = await fetch(`/api/users/${sellerId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData }),
@@ -61,7 +54,7 @@ export default function EditSellerForm({
       if (!response.ok) throw new Error("Failed to update profile");
 
       // Redirect after successful update
-      router.push(`/dashboard/${user_id}`);
+      router.push(`/dashboard/${sellerId}`);
     } catch (error) {
       setError(
         error instanceof Error
@@ -82,7 +75,7 @@ export default function EditSellerForm({
 
     setLoading(true);
     try {
-      const response = await fetch(`/api/users/${user_id}`, {
+      const response = await fetch(`/api/users/${sellerId}`, {
         method: "PATCH",
       });
 
@@ -90,7 +83,7 @@ export default function EditSellerForm({
 
       await update();
       // Redirect after successful deactivation
-      router.push(`/dashboard/${user_id}/goodbye`);
+      router.push(`/dashboard/${sellerId}/goodbye`);
     } catch (error) {
       setError(
         error instanceof Error
@@ -110,11 +103,12 @@ export default function EditSellerForm({
       {error && <p className="text-red-500">{error}</p>}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">
           Display Name *
         </label>
         <input
           type="text"
+          id="displayName"
           name="displayName"
           value={formData.displayName}
           onChange={handleChange}
@@ -124,9 +118,10 @@ export default function EditSellerForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Bio</label>
+        <label htmlFor="user_bio" className="block text-sm font-medium text-gray-700">Bio</label>
         <textarea
           name="user_bio"
+          id="user_bio"
           value={formData.user_bio}
           onChange={handleChange}
           className="mt-1 p-2 w-full border rounded-md"
@@ -134,11 +129,12 @@ export default function EditSellerForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">
           Image URL
         </label>
         <input
           type="text"
+          id="image"
           name="image"
           value={formData.image}
           onChange={handleChange}
@@ -174,7 +170,7 @@ export default function EditSellerForm({
       <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => router.push(`/dashboard/${sellerId}`)}
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
         >
           Cancel

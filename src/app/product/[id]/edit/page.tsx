@@ -1,4 +1,5 @@
 import EditForm from "@/components/Products/edit-form";
+import { getSessionUserId } from "@/app/lib/authUtils"
 import { getProductById } from "@/app/lib/products/queries";
 import { fetchProductCategories } from "@/app/lib/products/queries";
 import NotFoundPage from "@/components/Common/NotFound";
@@ -8,6 +9,7 @@ const EditProductPage = async ({
 }: {
   params: Promise<{ id: string }>;
 }) => {
+  const userId = await getSessionUserId();
   const { id } = await params;
 
   try {
@@ -15,6 +17,11 @@ const EditProductPage = async ({
 
     if (!product) {
       return <NotFoundPage errorMessage="Product not found" />;
+    }
+    
+    // if the logged in user != the seller of the product, return unauthorized
+    if (!userId || userId !== product.user_id) {
+      return <NotFoundPage errorMessage="Unauthorized" />;
     }
 
     // Fetch categories

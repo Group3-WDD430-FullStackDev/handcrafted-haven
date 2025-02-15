@@ -1,4 +1,5 @@
-import { fetchSellerData } from "@/app/lib/sellers/queries"; // Adjust based on your project structure
+import { fetchSellerData } from "@/app/lib/sellers/queries";
+import { getSessionUserId } from "@/app/lib/authUtils"
 import EditSellerForm from "@/components/SellerDashboard/edit-seller";
 import NotFoundPage from "@/components/Common/NotFound";
 
@@ -7,8 +8,12 @@ const EditSellerPage = async ({
 }: {
   params: Promise<{ sellerId: string }>;
 }) => {
+  const userId = await getSessionUserId();
   const { sellerId } = await params;
-  //   const user_id = Number(params.user_id);
+
+  if (!userId || userId !== Number(sellerId)) {
+    return <NotFoundPage errorMessage="Unauthorized" />;
+  }
 
   // Fetch user data from the database
   const sellerData = await fetchSellerData(+sellerId);

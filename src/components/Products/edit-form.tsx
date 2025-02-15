@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { categories } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IProductDetailCard } from "@/typing/ICards";
-import NotFoundPage from "../Common/NotFound";
 
 interface FormProps {
   categories: categories[];
@@ -13,9 +11,7 @@ interface FormProps {
 }
 
 export default function EditForm({ categories, product }: FormProps) {
-  const { data: session } = useSession();
   const router = useRouter();
-  const user_id = session?.user?.id;
 
   const [formData, setFormData] = useState({
     prod_name: product.prod_name,
@@ -29,10 +25,6 @@ export default function EditForm({ categories, product }: FormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isDeleteConfirmationVisible, setDeleteConfirmationVisible] =
     useState(false);
-
-  if (user_id !== product.user_id) {
-    return <NotFoundPage errorMessage="Unauthorized access" />;
-  }
 
   // Handle input changes
   const handleChange = (
@@ -72,7 +64,7 @@ export default function EditForm({ categories, product }: FormProps) {
           ...formData,
           prod_price: parseFloat(formData.prod_price),
           categories: formData.selectedCategories,
-          user_id,
+          user_id: product.user_id,
         }),
       });
 
@@ -104,7 +96,7 @@ export default function EditForm({ categories, product }: FormProps) {
         if (!response.ok) throw new Error("Failed to delete product");
 
         // Redirect back to seller dashboard after successful deletion
-        router.push(`/dashboard/${user_id}`);
+        router.push(`/dashboard/${product.user_id}`);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
@@ -127,11 +119,12 @@ export default function EditForm({ categories, product }: FormProps) {
       {error && <p className="text-red-500">{error}</p>}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_name" className="block text-sm font-medium text-gray-700">
           Product Name *
         </label>
         <input
           type="text"
+          id="prod_name"
           name="prod_name"
           value={formData.prod_name}
           onChange={handleChange}
@@ -141,10 +134,11 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_description" className="block text-sm font-medium text-gray-700">
           Description
         </label>
         <textarea
+          id="prod_description"
           name="prod_description"
           value={formData.prod_description}
           onChange={handleChange}
@@ -153,11 +147,12 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_price" className="block text-sm font-medium text-gray-700">
           Price *
         </label>
         <input
           type="number"
+          id="prod_price"
           name="prod_price"
           value={formData.prod_price}
           onChange={handleChange}
@@ -167,11 +162,12 @@ export default function EditForm({ categories, product }: FormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label htmlFor="prod_image" className="block text-sm font-medium text-gray-700">
           Image URL
         </label>
         <input
           type="text"
+          id="prod_image"
           name="prod_image"
           value={formData.prod_image}
           onChange={handleChange}
@@ -231,7 +227,7 @@ export default function EditForm({ categories, product }: FormProps) {
       <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
         <button
           type="button"
-          onClick={router.back}
+          onClick={() => router.push(`/dashboard/${product.user_id}`)}
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
         >
           Cancel
