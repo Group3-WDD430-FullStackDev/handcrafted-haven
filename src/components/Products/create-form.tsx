@@ -191,7 +191,7 @@ export default function Form({ categories }: FormProps) {
       <div className="flex justify-between">
         <button
           type="button"
-          onClick={router.back}
+          onClick={() => router.push(`/dashboard/${user_id}`)}
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
         >
           Cancel

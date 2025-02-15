@@ -227,7 +227,7 @@ export default function EditForm({ categories, product }: FormProps) {
       <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
         <button
           type="button"
-          onClick={router.back}
+          onClick={() => router.push(`/dashboard/${product.user_id}`)}
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
         >
           Cancel
