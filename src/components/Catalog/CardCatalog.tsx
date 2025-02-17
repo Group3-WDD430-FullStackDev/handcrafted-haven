@@ -36,6 +36,8 @@ export default function CardCatalog({
   isUserOwner,
   currentPage,
   pageCount,
+  minPrice, // Add minPrice
+  maxPrice, // Add maxPrice
   className = "",
 }: {
   title: string;
@@ -46,6 +48,8 @@ export default function CardCatalog({
   isUserOwner: boolean;
   currentPage: number;
   pageCount: number;
+  minPrice?: number;
+  maxPrice?: number;
   className?: string;
 }): JSX.Element {
   let hasFilters = false;
@@ -84,6 +88,8 @@ export default function CardCatalog({
           className="col-start-1 row-span-2 row-start-1 absolute right-0 top-0 z-10 sm_md:relative"
           categories={categories}
           sellers={sellers}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
         />
       )}
 

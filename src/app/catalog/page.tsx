@@ -12,12 +12,18 @@ export default async function Dashboard(props: {
     page?: string;
     Category: string;
     Seller: string;
+    minPrice: string;
+    maxPrice: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
+  console.log("🚀 ~ searchParams:", searchParams)
+  
   const filters = {
     Category: searchParams?.Category,
     Seller: searchParams?.Seller,
+    minPrice: searchParams?.minPrice ? +searchParams?.minPrice : undefined,
+    maxPrice: searchParams?.maxPrice ? +searchParams?.maxPrice : undefined,
   };
 
   const currentPage = +(searchParams?.page || 1);
@@ -38,6 +44,8 @@ export default async function Dashboard(props: {
       isUserOwner={false}
       currentPage={currentPage}
       pageCount={pageCount}
+      minPrice={filters.minPrice}
+      maxPrice={filters.maxPrice}
       className="p-3 md:mx-auto mx-0 sm_md:mx-5"
     />
   );

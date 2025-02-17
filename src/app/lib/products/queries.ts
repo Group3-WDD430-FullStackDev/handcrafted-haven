@@ -119,7 +119,7 @@ export async function fetchProducts(
   page: number,
   filters: IFilterParams
 ): Promise<IProduct[]> {
-  // offfset is the number of products to skip
+  // offset is the number of products to skip
   const offset = page * PRODUCTS_PER_PAGE;
 
   // getWhereClause is a helper function to get the where clause for the query
@@ -175,8 +175,10 @@ function getWhereClause(filters: IFilterParams) {
   const whereClause: {
     product_categories?: object;
     user_id?: object;
+    prod_price?: object; // Add prod_price to the whereClause for price filtering
   } = {};
 
+  // Handle category filtering
   if ("Category" in filters && filters.Category) {
     const categoryFilters = filters.Category?.split(",").map((x) => +x);
     whereClause.product_categories = {
@@ -189,11 +191,30 @@ function getWhereClause(filters: IFilterParams) {
       },
     };
   }
+
+  // Handle seller filtering
   if ("Seller" in filters && filters.Seller) {
     const sellerFilters = filters.Seller?.split(",").map((x) => +x);
     whereClause.user_id = {
       in: sellerFilters,
     };
   }
+
+  // Handle price filtering (minPrice and maxPrice)
+  if (filters.minPrice && filters.maxPrice) {
+    whereClause.prod_price = {
+      gte: filters.minPrice,  // greater than or equal to minPrice
+      lte: filters.maxPrice,  // less than or equal to maxPrice
+    };
+  } else if (filters.minPrice) {
+    whereClause.prod_price = {
+      gte: filters.minPrice,  // greater than or equal to minPrice
+    };
+  } else if (filters.maxPrice) {
+    whereClause.prod_price = {
+      lte: filters.maxPrice,  // less than or equal to maxPrice
+    };
+  }
+
   return whereClause;
 }
