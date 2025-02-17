@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
