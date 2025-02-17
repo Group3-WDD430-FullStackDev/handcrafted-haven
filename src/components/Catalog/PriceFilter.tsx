@@ -1,15 +1,17 @@
 "use client";
 
-import { JSX, useState } from "react";
+import { JSX } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import clsx from "clsx";
+// import clsx from "clsx";
 
 export default function PriceFilter({
   minPrice,
   maxPrice,
+  onPriceChange,
 }: {
-  minPrice?: number;
-  maxPrice?: number;
+  minPrice?: number | null;
+  maxPrice?: number | null;
+  onPriceChange: (min: number | null, max: number | null) => void;
 }): JSX.Element {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -31,6 +33,16 @@ export default function PriceFilter({
     }
   };
 
+  const handlePriceInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "min" | "max") => {
+    const value = e.target.value ? +e.target.value : null;
+    if (type === "min") {
+      onPriceChange(value, maxPrice ?? null); // Update min price
+    } else {
+      onPriceChange(minPrice ?? null, value); // Update max price
+    }
+    updateFilters(type === "min" ? "minPrice" : "maxPrice", value?.toString() || null);
+  };
+
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden text-black">
       <div className="w-full flex items-center justify-between p-3 bg-gray-100">
@@ -42,7 +54,8 @@ export default function PriceFilter({
             type="number"
             placeholder="Min"
             className="border p-1 rounded w-1/2"
-            defaultValue={minPrice || ""}
+            value={minPrice ?? ""}
+            onChange={(e) => handlePriceInputChange(e, "min")}
             onBlur={(e) => updateFilters("minPrice", e.target.value || null)}
             onKeyDown={(e) => handleKeyDown(e, "minPrice")}
           />
@@ -50,7 +63,8 @@ export default function PriceFilter({
             type="number"
             placeholder="Max"
             className="border p-1 rounded w-1/2"
-            defaultValue={maxPrice || ""}
+            value={maxPrice ?? ""}
+            onChange={(e) => handlePriceInputChange(e, "max")}
             onBlur={(e) => updateFilters("maxPrice", e.target.value || null)}
             onKeyDown={(e) => handleKeyDown(e, "maxPrice")}
           />

@@ -119,7 +119,7 @@ export async function fetchProducts(
   page: number,
   filters: IFilterParams
 ): Promise<IProduct[]> {
-  // offfset is the number of products to skip
+  // offset is the number of products to skip
   const offset = page * PRODUCTS_PER_PAGE;
 
   // getWhereClause is a helper function to get the where clause for the query

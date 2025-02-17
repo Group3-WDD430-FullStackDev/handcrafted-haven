@@ -21,6 +21,11 @@ export default function Sidebar({
   maxPrice?: number;
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
+  const [selectedSellerIds, setSelectedSellerIds] = useState<number[]>([]);
+  const [currentMinPrice, setCurrentMinPrice] = useState<number | null>(minPrice ?? null);
+  const [currentMaxPrice, setCurrentMaxPrice] = useState<number | null>(maxPrice ?? null);
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -37,6 +42,12 @@ export default function Sidebar({
 
   // Function to reset all filters
   const resetFilters = () => {
+
+    setSelectedCategoryIds([]);
+    setSelectedSellerIds([]);
+    setCurrentMinPrice(null);
+    setCurrentMaxPrice(null);
+
     const params = new URLSearchParams();
     router.push(`?${params.toString()}`, { scroll: false });
   };
@@ -49,6 +60,24 @@ export default function Sidebar({
     id: x.user_id,
     name: x.displayName,
   }));
+
+    // Handle updates to the category and seller selections
+    const handleCategoryChange = (selectedIds: number[]) => {
+      setSelectedCategoryIds(selectedIds);
+      updateFilters("category", selectedIds.join(","));
+    };
+  
+    const handleSellerChange = (selectedIds: number[]) => {
+      setSelectedSellerIds(selectedIds);
+      updateFilters("seller", selectedIds.join(","));
+    };
+
+    const handlePriceChange = (min: number | null, max: number | null) => {
+      setCurrentMinPrice(min);
+      setCurrentMaxPrice(max);
+      updateFilters("minPrice", min?.toString() || null);
+      updateFilters("maxPrice", max?.toString() || null);
+    };
 
   const ShowButton = (
     <button
@@ -99,14 +128,28 @@ export default function Sidebar({
           Filters
         </span>
         <div className="flex flex-col sticky gap-2 p-3">
-          <PriceFilter minPrice={minPrice} maxPrice={maxPrice} />
+          <PriceFilter 
+            minPrice={currentMinPrice} 
+            maxPrice={currentMaxPrice} 
+            onPriceChange={handlePriceChange}
+            />
 
           {sellers.length > 0 && (
-            <FilterSection title="Seller" options={sellerOptions} />
-            )}
+            <FilterSection 
+              title="Seller" 
+              options={sellerOptions} 
+              selectedOptions={selectedSellerIds}
+              onChange={handleSellerChange}
+            />
+          )}
 
           {categories.length > 0 && (
-            <FilterSection title="Category" options={categoryOptions} />
+            <FilterSection 
+              title="Category" 
+              options={categoryOptions} 
+              selectedOptions={selectedCategoryIds}
+              onChange={handleCategoryChange}
+            />
             )}
             
           <button

@@ -18,6 +18,8 @@ export default async function Dashboard(props: {
     query?: string;
     page?: string;
     Category: string;
+    minPrice?: string;
+    maxPrice?: string;
   }>;
 }) {
   const session = await getServerSession(authOptions);
@@ -32,9 +34,12 @@ export default async function Dashboard(props: {
   const isUserOwner = sellerId === String(loggedInUser);
   const currentPage = +(searchParams?.page || 1);
   const categoryFilter = searchParams?.Category;
+
   const filters = {
     Seller: sellerId,
     Category: categoryFilter,
+    minPrice: searchParams?.minPrice ? +searchParams?.minPrice : undefined,
+    maxPrice: searchParams?.maxPrice ? +searchParams?.maxPrice : undefined,
   };
 
   const [pageCount, cards, categories] = await Promise.all([
@@ -54,6 +59,8 @@ export default async function Dashboard(props: {
         isUserOwner={isUserOwner}
         currentPage={currentPage}
         pageCount={pageCount}
+        minPrice={filters.minPrice}
+        maxPrice={filters.maxPrice}
         className="m-2"
       />
     </div>
