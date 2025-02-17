@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -143,7 +143,10 @@ export default function Header() {
                     </li>
                     <li>
                       <button
-                        onClick={() => signOut()}
+                          onClick={async () => {
+                            await signOut()
+                            window.location.href = "/"
+                          }}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
                       >
                         Sign out
