@@ -52,6 +52,7 @@ export default function PriceFilter({
         <div className="flex gap-2">
           <input
             type="number"
+            aria-label="Min Price"
             placeholder="Min"
             className="border p-1 rounded w-1/2"
             value={minPrice ?? ""}
@@ -61,6 +62,7 @@ export default function PriceFilter({
           />
           <input
             type="number"
+            aria-label="Max Price"
             placeholder="Max"
             className="border p-1 rounded w-1/2"
             value={maxPrice ?? ""}
